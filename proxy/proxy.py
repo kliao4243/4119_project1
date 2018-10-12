@@ -7,15 +7,14 @@ from socket import socket, AF_INET, SOCK_STREAM
 import thread
 
 # take port number and ip addesses
-'''
-user_input = str(sys.argv)
-listen_port = user_input[0]  # listen-port
-fake_ip = user_input[1]  # bind to this ip for outbound connections
-server_ip = user_input[2]  # server-ip port 8080
-'''
-listen_port = 3000
-fake_ip = "127.0.0.1"
-server_ip = "127.0.0.1"
+
+listen_port = int(sys.argv[1]) # listen-port
+fake_ip = sys.argv[2]  # bind to this ip for outbound connections
+server_ip = sys.argv[3]  # server-ip port 8080
+
+#listen_port = 3000
+#fake_ip = "127.0.0.1"
+#server_ip = "127.0.0.1"
 
 
 def proxy_listen():
