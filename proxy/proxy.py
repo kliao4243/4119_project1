@@ -31,7 +31,6 @@ def proxy_listen():
         #try:
         data = connection.recv(1024)  # set the buffer size to be 1024 bytes
         print data
-            # to do: send data to server, call proxy_server()
         proxy_server(connection, data)
 
         # If the connection is disconnected by the client, connect to the next client.
@@ -46,21 +45,20 @@ def proxy_server(connection, data):
     s = socket(AF_INET, SOCK_STREAM)
 
     # Establish connection between proxy and server.
-    s.connect((server_ip, 8080))
-    s.send(data)
-    s.close()
+    try:
+        s.connect((server_ip, 8080))
+        s.send(data)
+        while True:
+            # Receive reply from server. Set the buffer size to be 1024.
+            reply = s.recv(1024)
+            if len(reply) > 0:
+                connection.send(reply)
+            else:
+                break
+    except:
+        s.close()
+        connection.close()
 
-    '''while True:
-
-        # Receive reply from server. Set the buffer size to be 1024.
-        reply = s.recv(1024)
-
-        if len(reply) > 0:
-            connection.send(reply)
-        else:
-            break
-    s.close()
-'''
 proxy_listen()
 '''
 def cnn_string
