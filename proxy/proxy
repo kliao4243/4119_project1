@@ -35,6 +35,7 @@ def process_connection(connection, request):
         socket_outbound.close()
         connection.close()
         sys.exit(1)
+        print("error")
 
     print(request)
 
