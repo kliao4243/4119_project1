@@ -19,7 +19,7 @@ def process_connection(connection, request):
 
     try:
         socket_outbound = socket(AF_INET, SOCK_STREAM)
-        socket_outbound.bind((fake_ip, ''))
+        socket_outbound.bind((fake_ip, 0))
         socket_outbound.connect((server_ip, 8080))
         socket_outbound.send(request)
 
