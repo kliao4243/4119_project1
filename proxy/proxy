@@ -31,7 +31,7 @@ def process_connection(connection, request):
                 break
         socket_outbound.close()
         connection.close()
-    except socket.error:
+    except Exception:
         socket_outbound.close()
         connection.close()
         sys.exit(1)
