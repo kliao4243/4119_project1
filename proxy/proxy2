@@ -39,12 +39,12 @@ class ConnHandler:
                 self.server.connect((server_ip, 8080))
                 request = request.decode()
                 searchobj = re.search('big_buck_bunny', request)
-                if len(searchobj) > 0:
+                if searchobj is not None:
                     request = request.replace("big_buck_bunny", "big_buck_bunny_nolist")
                     request = request.encode()
                 self.server.send(request)
                 self.request_time.append(time.time())
-                #todo
+                # todo
                 self.bitrate.append("lowest bitrate")
                 self.chunkname.append("Not a chunk")
             except Exception:
@@ -67,7 +67,7 @@ class ConnHandler:
                         return
                     if data:
                         if soc is self.client:
-                            #try:
+                            # try:
                             data = data.decode()
                             searchobj = re.search('big_buck_bunny', data)
                             if len(searchobj) > 0:
@@ -79,17 +79,17 @@ class ConnHandler:
                             if len(searchrate) > 0:
                                 self.bitrate.append(searchrate[0])
                             else:
-                                #todo
+                                # todo
                                 self.bitrate.append("lowest bitrate")
                             searchchunk = re.findall(r'/vod/[0-9]*00Seg.*Frag[0-9]*', data)
                             if len(searchrate) > 0:
                                 self.chunkname.append(searchchunk[0])
                             else:
                                 self.chunkname.append("Not a chunk")
-                            #except Exception:
-                                #print "Server lost"
-                                #self.client.close()
-                                #return
+                            # except Exception:
+                            # print "Server lost"
+                            # self.client.close()
+                            # return
                         elif soc is self.server:
                             try:
                                 self.client.send(data)
@@ -97,23 +97,25 @@ class ConnHandler:
                                 if len(searchobj) > 0:
                                     self.response_count += 1
                                     if self.response_count > 1:
-                                        searchlength = re.findall(r'Content-Length: ([0-9]*)',data)
-                                        contentlength = float(searchlength[0])*8/1024
+                                        searchlength = re.findall(r'Content-Length: ([0-9]*)', data)
+                                        contentlength = float(searchlength[0]) * 8 / 1024
                                         cur_time = str(time.time())
-                                        duration = str(self.last_pkt_time - self.request_time[self.response_count-2])
-                                        tput = str(contentlength/float(duration))
-                                        temp1 = alpha*float(tput)
-                                        temp2 = (1-alpha)*self.throughput
+                                        duration = str(self.last_pkt_time - self.request_time[self.response_count - 2])
+                                        tput = str(contentlength / float(duration))
+                                        temp1 = alpha * float(tput)
+                                        temp2 = (1 - alpha) * self.throughput
                                         self.throughput = temp1 + temp2
-                                        btr = self.bitrate[self.response_count-1]
-                                        add_line = cur_time+" "+duration+" "+tput+" "+str(self.throughput)+" "+btr+" "+server_ip+" "+self.chunkname[self.response_count-1]
+                                        btr = self.bitrate[self.response_count - 1]
+                                        add_line = cur_time + " " + duration + " " + tput + " " + str(
+                                            self.throughput) + " " + btr + " " + server_ip + " " + self.chunkname[
+                                                       self.response_count - 1]
                                         print add_line
                                         f = open(log_file, "w+")
-                                        f.write(add_line+"\r\n")
+                                        f.write(add_line + "\r\n")
                                         f.close()
                                 self.last_pkt_time = time.time()
-                            #seachobj = re.search('text/xml')
-                            #log_str = str()
+                            # seachobj = re.search('text/xml')
+                            # log_str = str()
                             except Exception:
                                 print "Client lost"
                                 self.server.close()
@@ -136,7 +138,6 @@ if __name__ == '__main__':
         print "Fail to start proxy."
         sys.exit(1)
 
-
     ''' Call the proxy_listen function in a while loop, such that if client close the connection, the proxy can listen to another client, if the server shut down, the proxy
     can inform the client and continue working when the server recovers.'''
     while True:
@@ -147,5 +148,3 @@ if __name__ == '__main__':
         except KeyboardInterrupt:
             s.close()
             sys.exit(2)
-
-
