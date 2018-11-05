@@ -94,7 +94,9 @@ class ConnHandler:
                                     cur_time = str(time.time())
                                     duration = str(self.last_pkt_time - self.request_time[self.response_count-2])
                                     tput = str(contentlength/float(duration))
-                                    self.throughput = alpha*float(tput) + (1-alpha)*self.throughput
+                                    temp1 = alpha*float(tput)
+                                    temp2 = (1-alpha)*self.throughput
+                                    self.throughput = temp1 + temp2
                                     btr = self.bitrate[self.response_count-1]
                                     add_line = cur_time+" "+duration+" "+tput++" "+str(self.throughput)+" "+btr+" "+server_ip+" "+self.chunkname[self.response_count-1]
                                     print add_line
