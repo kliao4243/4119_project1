@@ -70,7 +70,7 @@ class ConnHandler:
                             # try:
                             data = data.decode()
                             searchobj = re.search('big_buck_bunny', data)
-                            if len(searchobj) > 0:
+                            if searchobj is not 0:
                                 data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
                                 data = data.encode()
                             self.server.send(data)
