@@ -76,7 +76,7 @@ class ConnHandler:
                             self.server.send(data)
                             self.request_time.append(time.time())
                             searchrate = re.findall(r'/([0-9]*00)Seg', data)
-                            if searchrate is not None:
+                            if len(searchrate) > 0:
                                 self.bitrate.append(searchrate[0])
                             else:
                                 #todo
