@@ -1,0 +1,166 @@
+#! /usr/bin/env python
+import sys
+import select
+import time
+import re
+from socket import socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR
+from thread import *
+
+# Take arguments port number and ip addesses through sys.argv.
+
+# Convert listen_port to Integer.
+log_file = str(sys.argv[1])
+alpha = float(sys.argv[2])
+listen_port = int(sys.argv[3])
+fake_ip = sys.argv[4]
+server_ip = sys.argv[5]
+
+
+class ConnHandler:
+
+    def __init__(self, listen_socket):
+        self.client, _ = listen_socket.accept()
+        self.server = None
+        self.buffer_size = 4096
+        self.response_count = 0
+        self.xml_count = 0
+        self.request_time = list()
+        self.bitrate = list()
+        self.chunkname = list()
+        self.last_pkt_time = 0
+        self.throughput = 0
+        self.available_bit_rate = list()
+
+    def process_connection(self):
+        request = self.client.recv(self.buffer_size)
+        if len(request) > 0:
+            self.server = socket(AF_INET, SOCK_STREAM)
+            self.server.bind((fake_ip, 0))
+            try:
+                self.server.connect((server_ip, 8080))
+                request = request.decode()
+                searchobj = re.search('big_buck_bunny', request)
+                if searchobj is not None:
+                    request_1 = request.replace("big_buck_bunny", "big_buck_bunny_nolist")
+                    request = request.encode()
+                    request_1 = request_1.encode()
+                    self.server.send(request_1)
+                self.server.send(request)
+                self.request_time.append(time.time())
+                # todo
+                self.bitrate.append("lowest bitrate")
+                self.chunkname.append("Not a chunk")
+            except Exception:
+                print "Server not available now. Try Later"
+                self.client.close()
+                return
+
+            inputs = [self.client, self.server]
+            while True:
+                readable, writeable, errs = select.select(inputs, [], inputs, 3)
+                if errs:
+                    break
+                for soc in readable:
+                    try:
+                        data = soc.recv(self.buffer_size)
+                    except Exception:
+                        print "Connection Lost"
+                        self.server.close()
+                        self.client.close()
+                        return
+                    if data:
+                        if soc is self.client:
+                            try:
+                                data = data.decode()
+                                searchobj = re.search('big_buck_bunny', data)
+                                if searchobj is not 0:
+                                    data_1 = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
+                                    data = data.encode()
+                                    data_1 = data_1.encode()
+                                    self.server.send(data_1)
+                                self.server.send(data)
+                                self.request_time.append(time.time())
+                                searchrate = re.findall(r'/([0-9]*00)Seg', data)
+                                if len(searchrate) > 0:
+                                    self.bitrate.append(searchrate[0])
+                                else:
+                                    # todo
+                                    self.bitrate.append("lowest bitrate")
+                                searchchunk = re.findall(r'/vod/[0-9]*00Seg.*Frag[0-9]*', data)
+                                if len(searchrate) > 0:
+                                    self.chunkname.append(searchchunk[0])
+                                else:
+                                    self.chunkname.append("Not a chunk")
+                            except Exception:
+                                print "Server lost"
+                                self.client.close()
+                                return
+                        elif soc is self.server:
+                            #try:
+                            self.client.send(data)
+                            searchobj = re.search('HTTP/1.1', data)
+                            if searchobj is not None:
+                                self.response_count += 1
+                                if self.response_count > 1:
+                                    searchlength = re.findall(r'Content-Length: ([0-9]*)', data)
+                                    if len(searchlength) > 0:
+                                        contentlength = float(searchlength[0]) * 8 / 1024
+                                    else:
+                                        contentlength = 0
+                                    cur_time = str(time.time())
+                                    duration = str(self.last_pkt_time - self.request_time[self.response_count - 2])
+                                    tput = str(contentlength / float(duration))
+                                    temp1 = alpha * float(tput)
+                                    temp2 = (1 - alpha) * self.throughput
+                                    self.throughput = temp1 + temp2
+                                    btr = self.bitrate[self.response_count - 1]
+                                    add_line = cur_time + " " + duration + " " + tput + " " + str(
+                                        self.throughput) + " " + btr + " " + server_ip + " " + self.chunkname[
+                                                   self.response_count - 1]
+                                    print add_line
+                                    try:
+                                        f = open(log_file, "a+")
+                                        f.write(add_line + "\r\n")
+                                        f.close()
+                                    except Exception:
+                                        f = open(log_file, "w+")
+                                        f.write(add_line + "\r\n")
+                                        f.close()
+
+                                    searchobj = re.findall('text/xml')
+                                    
+                            self.last_pkt_time = time.time()
+                            # seachobj = re.search('text/xml')
+
+                            #except Exception:
+                                #print "Client lost"
+                                #self.server.close()
+                                #return
+                    else:
+                        break
+            self.client.close()
+            self.server.close()
+
+
+if __name__ == '__main__':
+    # Create TCP socket. This socket is used to listen from clients.
+    s = socket(AF_INET, SOCK_STREAM)
+    s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+    try:
+        s.bind(('', listen_port))
+        # Allow at most 5 connection
+        s.listen(5)
+    except Exception:
+        print "Fail to start proxy."
+        sys.exit(1)
+
+    ''' Call the proxy_listen function in a while loop, such that if client close the connection, the proxy can listen to another client, if the server shut down, the proxy
+    can inform the client and continue working when the server recovers.'''
+    while True:
+        try:
+            start_new_thread(ConnHandler(s).process_connection, ())
+            # print "Connection to client was terminated."
+
+        except KeyboardInterrupt:
+            s.close()
+            sys.exit(2)
