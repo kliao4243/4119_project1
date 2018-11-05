@@ -58,6 +58,8 @@ class ConnHandler:
                         elif soc is self.server:
                             try:
                                 self.client.send(data)
+                                #log_str = str()
+                                print data
                             except Exception:
                                 print "Client lost"
                                 self.server.close()
