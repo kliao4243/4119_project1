@@ -67,29 +67,29 @@ class ConnHandler:
                         return
                     if data:
                         if soc is self.client:
-                            try:
-                                data = data.decode()
-                                searchobj = re.search('big_buck_bunny', data)
-                                if searchobj is not None:
-                                    data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
-                                    data = data.encode()
-                                self.server.send(data)
-                                self.request_time.append(time.time())
-                                searchrate = re.findall(r'/([0-9]*00)Seg', data)
-                                if searchrate is not None:
-                                    self.bitrate.append(searchrate[0])
-                                else:
-                                    #todo
-                                    self.bitrate.append("lowest bitrate")
-                                searchchunk = re.findall(r'/vod/[0-9]*00Seg.*Frag[0-9]*', data)
-                                if searchrate is not None:
-                                    self.chunkname.append(searchchunk[0])
-                                else:
-                                    self.chunkname.append("Not a chunk")
-                            except Exception:
-                                print "Server lost"
-                                self.client.close()
-                                return
+                            #try:
+                            data = data.decode()
+                            searchobj = re.search('big_buck_bunny', data)
+                            if searchobj is not None:
+                                data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
+                                data = data.encode()
+                            self.server.send(data)
+                            self.request_time.append(time.time())
+                            searchrate = re.findall(r'/([0-9]*00)Seg', data)
+                            if searchrate is not None:
+                                self.bitrate.append(searchrate[0])
+                            else:
+                                #todo
+                                self.bitrate.append("lowest bitrate")
+                            searchchunk = re.findall(r'/vod/[0-9]*00Seg.*Frag[0-9]*', data)
+                            if searchrate is not None:
+                                self.chunkname.append(searchchunk[0])
+                            else:
+                                self.chunkname.append("Not a chunk")
+                            #except Exception:
+                                #print "Server lost"
+                                #self.client.close()
+                                #return
                         elif soc is self.server:
                             try:
                                 self.client.send(data)
