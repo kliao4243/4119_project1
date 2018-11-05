@@ -29,8 +29,11 @@ class ConnHandler:
             try:
                 self.server.connect((server_ip, 8080))
                 request = request.decode()
-                request = request.replace("big_buck_bunny", "big_buck_bunny_nolist")
-                request = request.encode()
+                searchobj = re.search(r'http://(.*)big_buck_bunny.f4m', request)
+                if searchobj != None:
+                    request = request.replace("big_buck_bunny", "big_buck_bunny_nolist")
+                    request = request.encode()
+                    print request
                 self.server.send(request)
             except Exception:
                 print "Server not available now. Try Later"
@@ -54,8 +57,11 @@ class ConnHandler:
                         if soc is self.client:
                             try:
                                 data = data.decode()
-                                data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
-                                data = data.encode()
+                                searchobj = re.search(r'http://(.*)big_buck_bunny.f4m', data)
+                                if searchobj != None:
+                                    data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
+                                    data = data.encode()
+                                    print data
                                 self.server.send(data)
                             except Exception:
                                 print "Server lost"
