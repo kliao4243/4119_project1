@@ -67,59 +67,59 @@ class ConnHandler:
                         return
                     if data:
                         if soc is self.client:
-                            # try:
-                            data = data.decode()
-                            searchobj = re.search('big_buck_bunny', data)
-                            if searchobj is not 0:
-                                data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
-                                data = data.encode()
-                            self.server.send(data)
-                            self.request_time.append(time.time())
-                            searchrate = re.findall(r'/([0-9]*00)Seg', data)
-                            if len(searchrate) > 0:
-                                self.bitrate.append(searchrate[0])
-                            else:
-                                # todo
-                                self.bitrate.append("lowest bitrate")
-                            searchchunk = re.findall(r'/vod/[0-9]*00Seg.*Frag[0-9]*', data)
-                            if len(searchrate) > 0:
-                                self.chunkname.append(searchchunk[0])
-                            else:
-                                self.chunkname.append("Not a chunk")
-                            # except Exception:
-                            # print "Server lost"
-                            # self.client.close()
-                            # return
+                             try:
+                                data = data.decode()
+                                searchobj = re.search('big_buck_bunny', data)
+                                if searchobj is not 0:
+                                    data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
+                                    data = data.encode()
+                                self.server.send(data)
+                                self.request_time.append(time.time())
+                                searchrate = re.findall(r'/([0-9]*00)Seg', data)
+                                if len(searchrate) > 0:
+                                    self.bitrate.append(searchrate[0])
+                                else:
+                                    # todo
+                                    self.bitrate.append("lowest bitrate")
+                                searchchunk = re.findall(r'/vod/[0-9]*00Seg.*Frag[0-9]*', data)
+                                if len(searchrate) > 0:
+                                    self.chunkname.append(searchchunk[0])
+                                else:
+                                    self.chunkname.append("Not a chunk")
+                             except Exception:
+                             print "Server lost"
+                             self.client.close()
+                             return
                         elif soc is self.server:
-                            try:
-                                self.client.send(data)
-                                searchobj = re.search('HTTP/1.1', data)
-                                if searchobj is not None:
-                                    self.response_count += 1
-                                    if self.response_count > 1:
-                                        searchlength = re.findall(r'Content-Length: ([0-9]*)', data)
-                                        contentlength = float(searchlength[0]) * 8 / 1024
-                                        cur_time = str(time.time())
-                                        duration = str(self.last_pkt_time - self.request_time[self.response_count - 2])
-                                        tput = str(contentlength / float(duration))
-                                        temp1 = alpha * float(tput)
-                                        temp2 = (1 - alpha) * self.throughput
-                                        self.throughput = temp1 + temp2
-                                        btr = self.bitrate[self.response_count - 1]
-                                        add_line = cur_time + " " + duration + " " + tput + " " + str(
-                                            self.throughput) + " " + btr + " " + server_ip + " " + self.chunkname[
-                                                       self.response_count - 1]
-                                        print add_line
-                                        f = open(log_file, "w+")
-                                        f.write(add_line + "\r\n")
-                                        f.close()
-                                self.last_pkt_time = time.time()
+                            #try:
+                            self.client.send(data)
+                            searchobj = re.search('HTTP/1.1', data)
+                            if searchobj is not None:
+                                self.response_count += 1
+                                if self.response_count > 1:
+                                    searchlength = re.findall(r'Content-Length: ([0-9]*)', data)
+                                    contentlength = float(searchlength[0]) * 8 / 1024
+                                    cur_time = str(time.time())
+                                    duration = str(self.last_pkt_time - self.request_time[self.response_count - 2])
+                                    tput = str(contentlength / float(duration))
+                                    temp1 = alpha * float(tput)
+                                    temp2 = (1 - alpha) * self.throughput
+                                    self.throughput = temp1 + temp2
+                                    btr = self.bitrate[self.response_count - 1]
+                                    add_line = cur_time + " " + duration + " " + tput + " " + str(
+                                        self.throughput) + " " + btr + " " + server_ip + " " + self.chunkname[
+                                                   self.response_count - 1]
+                                    print add_line
+                                    f = open(log_file, "w+")
+                                    f.write(add_line + "\r\n")
+                                    f.close()
+                            self.last_pkt_time = time.time()
                             # seachobj = re.search('text/xml')
                             # log_str = str()
-                            except Exception:
-                                print "Client lost"
-                                self.server.close()
-                                return
+                            #except Exception:
+                                #print "Client lost"
+                                #self.server.close()
+                                #return
                     else:
                         break
             self.client.close()
