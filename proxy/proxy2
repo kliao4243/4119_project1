@@ -46,6 +46,7 @@ class ConnHandler:
                 self.request_time.append(time.time())
                 #todo
                 self.bitrate.append("lowest bitrate")
+                self.chunkname.append("Not a chunk")
             except Exception:
                 print "Server not available now. Try Later"
                 self.client.close()
