@@ -94,7 +94,7 @@ class ConnHandler:
                             try:
                                 self.client.send(data)
                                 searchobj = re.search('HTTP/1.1', data)
-                                if len(searchobj) > 0:
+                                if searchobj is not None:
                                     self.response_count += 1
                                     if self.response_count > 1:
                                         searchlength = re.findall(r'Content-Length: ([0-9]*)', data)
