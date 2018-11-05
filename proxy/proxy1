@@ -28,6 +28,9 @@ class ConnHandler:
             self.server.bind((fake_ip, 0))
             try:
                 self.server.connect((server_ip, 8080))
+                request = request.decode()
+                request = request.replace("big_buck_bunny", "big_buck_bunny_nolist")
+                request = request.encode()
                 self.server.send(request)
             except Exception:
                 print "Server not available now. Try Later"
@@ -50,6 +53,9 @@ class ConnHandler:
                     if data:
                         if soc is self.client:
                             try:
+                                data = data.decode()
+                                data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
+                                data = data.encode()
                                 self.server.send(data)
                             except Exception:
                                 print "Server lost"
@@ -59,7 +65,6 @@ class ConnHandler:
                             try:
                                 self.client.send(data)
                                 #log_str = str()
-                                print data
                             except Exception:
                                 print "Client lost"
                                 self.server.close()
