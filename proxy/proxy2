@@ -67,7 +67,7 @@ class ConnHandler:
                         return
                     if data:
                         if soc is self.client:
-                             try:
+                            try:
                                 data = data.decode()
                                 searchobj = re.search('big_buck_bunny', data)
                                 if searchobj is not 0:
@@ -86,10 +86,10 @@ class ConnHandler:
                                     self.chunkname.append(searchchunk[0])
                                 else:
                                     self.chunkname.append("Not a chunk")
-                             except Exception:
-                             print "Server lost"
-                             self.client.close()
-                             return
+                            except Exception:
+                                print "Server lost"
+                                self.client.close()
+                                return
                         elif soc is self.server:
                             #try:
                             self.client.send(data)
