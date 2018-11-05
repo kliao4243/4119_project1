@@ -84,7 +84,7 @@ class ConnHandler:
                                     searchlength = re.findall(r'Content-Length: ([0-9]*)',data)
                                     contentlength = float(searchlength[0])*8/1024
                                     cur_time = str(time.time())
-                                    duration = str(time.time() - self.request_time[self.response_count-1])
+                                    duration = str(time.time() - self.request_time[self.response_count-2])
                                     tput = str(contentlength/float(duration))
                                     btr = self.bitrate[self.response_count-1]
                                     add_line = cur_time+" "+duration+" "+tput+" "+btr
