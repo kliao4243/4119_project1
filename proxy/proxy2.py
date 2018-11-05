@@ -20,6 +20,7 @@ class ConnHandler:
         self.client, _ = listen_socket.accept()
         self.server = None
         self.buffer_size = 4096
+        self.received = 1
 
     def process_connection(self):
         request = self.client.recv(self.buffer_size)
@@ -34,6 +35,7 @@ class ConnHandler:
                     request = request.replace("big_buck_bunny", "big_buck_bunny_nolist")
                     request = request.encode()
                 self.server.send(request)
+                self.received = 0
             except Exception:
                 print "Server not available now. Try Later"
                 self.client.close()
@@ -55,12 +57,15 @@ class ConnHandler:
                     if data:
                         if soc is self.client:
                             try:
+                                while self.received == 0:
+                                    time.sleep(0.001)
                                 data = data.decode()
                                 searchobj = re.search('big_buck_bunny', data)
                                 if searchobj is not None:
                                     data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
                                     data = data.encode()
                                 self.server.send(data)
+                                self.received = 0
                             except Exception:
                                 print "Server lost"
                                 self.client.close()
@@ -68,6 +73,7 @@ class ConnHandler:
                         elif soc is self.server:
                             try:
                                 self.client.send(data)
+                                self.received = 1
                                 #seachobj = re.search('text/xml')
                                 #log_str = str()
                             except Exception:
@@ -78,58 +84,6 @@ class ConnHandler:
                         break
             self.client.close()
             self.server.close()
-
-        '''
-        while 1:
-            # Set the buffer size to be 1024 bytes
-            data = self.client.recv(4096)
-
-            # Forward the message sent by clients only when its length is larger than 0. Otherwise, the connection to clients has been closed.
-            if len(data) > 0:
-
-                # Try to send data to the server. If fails, the connection to server has been closed.
-                try:
-                    socket_outbound.send(data)
-                except Exception:
-                    print "Connection to server was terminated.\nDisconnect the client"
-                    self.client.close()
-                    socket_outbound.close()
-                    return
-
-                # Receive data from server. If fails, the connection to server has been closed.
-                while 1:
-                    try:
-                        reply = socket_outbound.recv(4096)
-                    except Exception:
-                        print "Connection to server was terminated.\nDisconnect the client"
-                        self.client.close()
-                        socket_outbound.close()
-                        return
-
-                    # Forward the message sent by servers only when its length is larger than 0.
-                    # Otherwise, the connection to servers has been closed.
-                    if len(reply) > 0:
-                        try:
-                            self.client.send(reply)
-                        except Exception:
-                            print "Connection to client was terminated.\nDisconnect the server"
-                            socket_outbound.close()
-                            self.client.close()
-                            return
-                    else:
-                        print "Connection to server was terminated.\nDisconnect the client"
-                        self.client.close()
-                        socket_outbound.close()
-                        return
-
-            # If the connection is disconnected by the client, connect to the next client.
-            else:
-                print "Connection to client was terminated.\nDisconnect the server"
-                socket_outbound.close()
-                self.client.close()
-                return
-        return
-        '''
 
 
 if __name__ == '__main__':
