@@ -44,7 +44,7 @@ class ConnHandler:
                     request = request.encode()
                 self.server.send(request)
                 self.request_time.append(time.time())
-                #to do
+                #todo
                 self.bitrate.append("lowest bitrate")
             except Exception:
                 print "Server not available now. Try Later"
@@ -75,9 +75,16 @@ class ConnHandler:
                             self.server.send(data)
                             self.request_time.append(time.time())
                             searchrate = re.findall(r'/([0-9]*00)Seg', data)
-                            self.bitrate.append(searchrate[0])
+                            if searchrate is not None:
+                                self.bitrate.append(searchrate[0])
+                            else:
+                                #todo
+                                self.bitrate.append("lowest bitrate")
                             searchchunk = re.findall(r'/vod/[0-9]*00Seg.*Frag[0-9]*', data)
-                            self.chunkname.append(searchchunk[0])
+                            if searchrate is not None:
+                                self.chunkname.append(searchchunk[0])
+                            else:
+                                self.chunkname.append("Not a chunk")
                             #except Exception:
                             #    print "Server lost"
                             #    self.client.close()
@@ -94,8 +101,8 @@ class ConnHandler:
                                     cur_time = str(time.time())
                                     duration = str(self.last_pkt_time - self.request_time[self.response_count-2])
                                     tput = str(contentlength/float(duration))
-                                    temp1 = alpha*float(tput)
-                                    temp2 = (1-alpha)*self.throughput
+                                    temp1 = alpha*int(tput)
+                                    temp2 = (1-alpha)*int(self.throughput)
                                     self.throughput = temp1 + temp2
                                     btr = self.bitrate[self.response_count-1]
                                     add_line = cur_time+" "+duration+" "+tput++" "+str(self.throughput)+" "+btr+" "+server_ip+" "+self.chunkname[self.response_count-1]
