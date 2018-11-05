@@ -39,7 +39,7 @@ class ConnHandler:
                 self.server.connect((server_ip, 8080))
                 request = request.decode()
                 searchobj = re.search('big_buck_bunny', request)
-                if searchobj is not None:
+                if len(searchobj) > 0:
                     request = request.replace("big_buck_bunny", "big_buck_bunny_nolist")
                     request = request.encode()
                 self.server.send(request)
@@ -70,7 +70,7 @@ class ConnHandler:
                             #try:
                             data = data.decode()
                             searchobj = re.search('big_buck_bunny', data)
-                            if searchobj is not None:
+                            if len(searchobj) > 0:
                                 data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
                                 data = data.encode()
                             self.server.send(data)
@@ -82,7 +82,7 @@ class ConnHandler:
                                 #todo
                                 self.bitrate.append("lowest bitrate")
                             searchchunk = re.findall(r'/vod/[0-9]*00Seg.*Frag[0-9]*', data)
-                            if searchrate is not None:
+                            if len(searchrate) > 0:
                                 self.chunkname.append(searchchunk[0])
                             else:
                                 self.chunkname.append("Not a chunk")
@@ -94,7 +94,7 @@ class ConnHandler:
                             try:
                                 self.client.send(data)
                                 searchobj = re.search('HTTP/1.1', data)
-                                if searchobj is not None:
+                                if len(searchobj) > 0:
                                     self.response_count += 1
                                     if self.response_count > 1:
                                         searchlength = re.findall(r'Content-Length: ([0-9]*)',data)
