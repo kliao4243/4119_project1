@@ -38,6 +38,7 @@ class ConnHandler:
                     request = request.replace("big_buck_bunny", "big_buck_bunny_nolist")
                     request = request.encode()
                 self.server.send(request)
+                self.request_time.append(time.time())
             except Exception:
                 print "Server not available now. Try Later"
                 self.client.close()
@@ -65,6 +66,8 @@ class ConnHandler:
                                     data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
                                     data = data.encode()
                                 self.server.send(data)
+                                self.request_time.append(time.time())
+                                print self.request_time
                             except Exception:
                                 print "Server lost"
                                 self.client.close()
@@ -76,6 +79,8 @@ class ConnHandler:
                                 if searchobj is not None:
                                     self.response_count += 1
                                     print self.response_count
+                                    self.response_time.append(time.time())
+                                    print self.response_time
                                 #seachobj = re.search('text/xml')
                                 #log_str = str()
                             except Exception:
