@@ -69,8 +69,8 @@ class ConnHandler:
                                     data = data.encode()
                                 self.server.send(data)
                                 self.request_time.append(time.time())
-                                searchrate = re.findall(r'/([0-9]*00)Seg', data)
-                                self.bitrate.append(searchrate[0])
+                                #searchrate = re.findall(r'/([0-9]*00)Seg', data)
+                                #self.bitrate.append(searchrate[0])
                             except Exception:
                                 print "Server lost"
                                 self.client.close()
@@ -86,8 +86,8 @@ class ConnHandler:
                                     cur_time = str(time.time())
                                     duration = str(time.time() - self.request_time[self.response_count-2])
                                     #tput = str(contentlength/float(duration))
-                                    btr = self.bitrate[self.response_count-1]
-                                    add_line = cur_time+" "+duration+" "+btr
+                                    #btr = self.bitrate[self.response_count-1]
+                                    add_line = cur_time+" "+duration+" "
                                     print add_line
                                 #seachobj = re.search('text/xml')
                                 #log_str = str()
