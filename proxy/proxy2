@@ -20,7 +20,10 @@ class ConnHandler:
         self.client, _ = listen_socket.accept()
         self.server = None
         self.buffer_size = 4096
-        self.received = 1
+        self.response_count = 0
+        self.xml_count = 0
+        self.request_time = list()
+        self.response_time = list()
 
     def process_connection(self):
         request = self.client.recv(self.buffer_size)
@@ -35,7 +38,6 @@ class ConnHandler:
                     request = request.replace("big_buck_bunny", "big_buck_bunny_nolist")
                     request = request.encode()
                 self.server.send(request)
-                self.received = 0
             except Exception:
                 print "Server not available now. Try Later"
                 self.client.close()
@@ -57,15 +59,12 @@ class ConnHandler:
                     if data:
                         if soc is self.client:
                             try:
-                                while self.received == 0:
-                                    time.sleep(0.001)
                                 data = data.decode()
                                 searchobj = re.search('big_buck_bunny', data)
                                 if searchobj is not None:
                                     data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
                                     data = data.encode()
                                 self.server.send(data)
-                                self.received = 0
                             except Exception:
                                 print "Server lost"
                                 self.client.close()
@@ -73,7 +72,8 @@ class ConnHandler:
                         elif soc is self.server:
                             try:
                                 self.client.send(data)
-                                self.received = 1
+                                self.response_count += 1
+                                print self.response_count
                                 #seachobj = re.search('text/xml')
                                 #log_str = str()
                             except Exception:
