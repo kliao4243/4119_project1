@@ -23,7 +23,7 @@ class ConnHandler:
         self.response_count = 0
         self.xml_count = 0
         self.request_time = list()
-        self.response_time = list()
+        self.bitrate = list()
 
     def process_connection(self):
         request = self.client.recv(self.buffer_size)
@@ -39,6 +39,8 @@ class ConnHandler:
                     request = request.encode()
                 self.server.send(request)
                 self.request_time.append(time.time())
+                #to do
+                self.bitrate.append("lowest bitrate")
             except Exception:
                 print "Server not available now. Try Later"
                 self.client.close()
@@ -67,20 +69,27 @@ class ConnHandler:
                                     data = data.encode()
                                 self.server.send(data)
                                 self.request_time.append(time.time())
-                                print self.request_time
+                                searchrate = re.findall(r'/([0-9]*00)Seg', data)
+                                self.bitrate.append(searchrate[0])
                             except Exception:
                                 print "Server lost"
                                 self.client.close()
                                 return
                         elif soc is self.server:
                             try:
+                                self.response_count += 1
                                 self.client.send(data)
                                 searchobj = re.search('HTTP/1.1', data)
                                 if searchobj is not None:
-                                    self.response_count += 1
-                                    print self.response_count
-                                    self.response_time.append(time.time())
-                                    print self.response_time
+                                    searchlength = re.findall(r'Content-Length: ([0-9]*)',line)
+                                    contentlength = float(searchlength[0])*8/1024
+                                    time = str(time.time())
+                                    duration = str(time.time() - self.request_time[self.response_count-1])
+                                    tput = str(contentlength/float(duration))
+                                    btr = self.bitrate(self.response_count-1)
+                                    add_line = time+" "+duration+" "+tput+" "+btr
+                                    print add_line
+
                                 #seachobj = re.search('text/xml')
                                 #log_str = str()
                             except Exception:
