@@ -9,8 +9,8 @@ from thread import *
 # Take arguments port number and ip addesses through sys.argv.
 
 # Convert listen_port to Integer.
-log_file = sys.argv[1]
-alpha = sys.argv[2]
+log_file = str(sys.argv[1])
+alpha = float(sys.argv[2])
 listen_port = int(sys.argv[3])
 fake_ip = sys.argv[4]
 server_ip = sys.argv[5]
@@ -101,8 +101,8 @@ class ConnHandler:
                                     cur_time = str(time.time())
                                     duration = str(self.last_pkt_time - self.request_time[self.response_count-2])
                                     tput = str(contentlength/float(duration))
-                                    temp1 = alpha*int(tput)
-                                    temp2 = (1-alpha)*int(self.throughput)
+                                    temp1 = alpha*float(tput)
+                                    temp2 = (1-alpha)*self.throughput
                                     self.throughput = temp1 + temp2
                                     btr = self.bitrate[self.response_count-1]
                                     add_line = cur_time+" "+duration+" "+tput++" "+str(self.throughput)+" "+btr+" "+server_ip+" "+self.chunkname[self.response_count-1]
