@@ -80,7 +80,7 @@ class ConnHandler:
                                 self.response_count += 1
                                 self.client.send(data)
                                 searchobj = re.search('HTTP/1.1', data)
-                                if searchobj is not None:
+                                if searchobj is not None and self.response_count>1:
                                     searchlength = re.findall(r'Content-Length: ([0-9]*)',data)
                                     contentlength = float(searchlength[0])*8/1024
                                     cur_time = str(time.time())
