@@ -79,7 +79,6 @@ class ConnHandler:
                         elif soc is self.server:
                             #try:
                             self.client.send(data)
-                            buffer.count += 1
                             searchobj = re.search('HTTP/1.1', data)
                             if searchobj is not None:
                                 self.response_count += 1
