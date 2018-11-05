@@ -87,7 +87,7 @@ class ConnHandler:
                                     #contentlength = float(searchlength[0])*8/1024
                                     cur_time = str(time.time())
                                     duration = str(self.last_pkt_time - self.request_time[self.response_count-2])
-                                    self.last_pkt_time = cur_time
+                                    self.last_pkt_time = float(cur_time)
                                     #tput = str(contentlength/float(duration))
                                     #btr = self.bitrate[self.response_count-1]
                                     add_line = cur_time+" "+duration+" "
