@@ -105,7 +105,7 @@ class ConnHandler:
                                     temp2 = (1-alpha)*self.throughput
                                     self.throughput = temp1 + temp2
                                     btr = self.bitrate[self.response_count-1]
-                                    add_line = cur_time+" "+duration+" "+tput++" "+str(self.throughput)+" "+btr+" "+server_ip+" "+self.chunkname[self.response_count-1]
+                                    add_line = cur_time+" "+duration+" "+tput+" "+str(self.throughput)+" "+btr+" "+server_ip+" "+self.chunkname[self.response_count-1]
                                     print add_line
                             self.last_pkt_time = time.time()
                             #seachobj = re.search('text/xml')
