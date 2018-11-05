@@ -98,7 +98,10 @@ class ConnHandler:
                                 self.response_count += 1
                                 if self.response_count > 1:
                                     searchlength = re.findall(r'Content-Length: ([0-9]*)', data)
-                                    contentlength = float(searchlength[0]) * 8 / 1024
+                                    if len(searchlength) > 0:
+                                        contentlength = float(searchlength[0]) * 8 / 1024
+                                    else:
+                                        contentlength = 0
                                     cur_time = str(time.time())
                                     duration = str(self.last_pkt_time - self.request_time[self.response_count - 2])
                                     tput = str(contentlength / float(duration))
