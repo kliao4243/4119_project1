@@ -9,9 +9,11 @@ from thread import *
 # Take arguments port number and ip addesses through sys.argv.
 
 # Convert listen_port to Integer.
-listen_port = int(sys.argv[1])
-fake_ip = sys.argv[2]
-server_ip = sys.argv[3]
+log_file = sys.argv[1]
+alpha = sys.argv[2]
+listen_port = int(sys.argv[3])
+fake_ip = sys.argv[4]
+server_ip = sys.argv[5]
 
 
 class ConnHandler:
@@ -24,7 +26,9 @@ class ConnHandler:
         self.xml_count = 0
         self.request_time = list()
         self.bitrate = list()
+        self.chunkname = list()
         self.last_pkt_time = 0
+        self.throughput = 0
 
     def process_connection(self):
         request = self.client.recv(self.buffer_size)
@@ -72,6 +76,8 @@ class ConnHandler:
                                 self.request_time.append(time.time())
                                 searchrate = re.findall(r'/([0-9]*00)Seg', data)
                                 self.bitrate.append(searchrate[0])
+                                searchchunk = re.findall(r'/vod/[0-9]*00Seg.*Frag[0-9]*', data)
+                                self.chunkname.append(searchchunk[0])
                             except Exception:
                                 print "Server lost"
                                 self.client.close()
@@ -88,8 +94,9 @@ class ConnHandler:
                                     cur_time = str(time.time())
                                     duration = str(self.last_pkt_time - self.request_time[self.response_count-2])
                                     tput = str(contentlength/float(duration))
+                                    self.throughput = alpha*tput + (1-alpha)*self.throughput
                                     btr = self.bitrate[self.response_count-1]
-                                    add_line = cur_time+" "+duration+" "+tput+" "+btr
+                                    add_line = cur_time+" "+duration+" "+tput++" "+str(self.throughput)+" "+btr+" "+server_ip+" "+self.chunkname[self.response_count-1]
                                     print add_line
                             self.last_pkt_time = time.time()
                             #seachobj = re.search('text/xml')
