@@ -81,13 +81,13 @@ class ConnHandler:
                                 self.client.send(data)
                                 searchobj = re.search('HTTP/1.1', data)
                                 if searchobj is not None:
-                                    searchlength = re.findall(r'Content-Length: ([0-9]*)',line)
+                                    searchlength = re.findall(r'Content-Length: ([0-9]*)',data)
                                     contentlength = float(searchlength[0])*8/1024
-                                    time = str(time.time())
+                                    cur_time = str(time.time())
                                     duration = str(time.time() - self.request_time[self.response_count-1])
                                     tput = str(contentlength/float(duration))
-                                    btr = self.bitrate(self.response_count-1)
-                                    add_line = time+" "+duration+" "+tput+" "+btr
+                                    btr = self.bitrate[self.response_count-1]
+                                    add_line = cur_time+" "+duration+" "+tput+" "+btr
                                     print add_line
 
                                 #seachobj = re.search('text/xml')
