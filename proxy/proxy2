@@ -24,6 +24,7 @@ class ConnHandler:
         self.xml_count = 0
         self.request_time = list()
         self.bitrate = list()
+        self.last_pkt_time = 0
 
     def process_connection(self):
         request = self.client.recv(self.buffer_size)
@@ -78,6 +79,7 @@ class ConnHandler:
                         elif soc is self.server:
                             #try:
                             self.client.send(data)
+                            buffer.count += 1
                             searchobj = re.search('HTTP/1.1', data)
                             if searchobj is not None:
                                 self.response_count += 1
@@ -85,7 +87,8 @@ class ConnHandler:
                                     #searchlength = re.findall(r'Content-Length: ([0-9]*)',data)
                                     #contentlength = float(searchlength[0])*8/1024
                                     cur_time = str(time.time())
-                                    duration = str(time.time() - self.request_time[self.response_count-2])
+                                    duration = str(self.last_pkt_time - self.request_time[self.response_count-2])
+                                    self.last_pkt_time = cur_time
                                     #tput = str(contentlength/float(duration))
                                     #btr = self.bitrate[self.response_count-1]
                                     add_line = cur_time+" "+duration+" "
