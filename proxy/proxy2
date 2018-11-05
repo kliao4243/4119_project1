@@ -70,8 +70,8 @@ class ConnHandler:
                                     data = data.encode()
                                 self.server.send(data)
                                 self.request_time.append(time.time())
-                                #searchrate = re.findall(r'/([0-9]*00)Seg', data)
-                                #self.bitrate.append(searchrate[0])
+                                searchrate = re.findall(r'/([0-9]*00)Seg', data)
+                                self.bitrate.append(searchrate[0])
                             except Exception:
                                 print "Server lost"
                                 self.client.close()
@@ -83,13 +83,13 @@ class ConnHandler:
                             if searchobj is not None:
                                 self.response_count += 1
                                 if self.response_count > 1:
-                                    #searchlength = re.findall(r'Content-Length: ([0-9]*)',data)
-                                    #contentlength = float(searchlength[0])*8/1024
+                                    searchlength = re.findall(r'Content-Length: ([0-9]*)',data)
+                                    contentlength = float(searchlength[0])*8/1024
                                     cur_time = str(time.time())
                                     duration = str(self.last_pkt_time - self.request_time[self.response_count-2])
-                                    #tput = str(contentlength/float(duration))
-                                    #btr = self.bitrate[self.response_count-1]
-                                    add_line = cur_time+" "+duration+" "
+                                    tput = str(contentlength/float(duration))
+                                    btr = self.bitrate[self.response_count-1]
+                                    add_line = cur_time+" "+duration+" "+tput+" "+btr
                                     print add_line
                             self.last_pkt_time = time.time()
                             #seachobj = re.search('text/xml')
