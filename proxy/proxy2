@@ -66,22 +66,22 @@ class ConnHandler:
                         return
                     if data:
                         if soc is self.client:
-                            try:
-                                data = data.decode()
-                                searchobj = re.search('big_buck_bunny', data)
-                                if searchobj is not None:
-                                    data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
-                                    data = data.encode()
-                                self.server.send(data)
-                                self.request_time.append(time.time())
-                                searchrate = re.findall(r'/([0-9]*00)Seg', data)
-                                self.bitrate.append(searchrate[0])
-                                searchchunk = re.findall(r'/vod/[0-9]*00Seg.*Frag[0-9]*', data)
-                                self.chunkname.append(searchchunk[0])
-                            except Exception:
-                                print "Server lost"
-                                self.client.close()
-                                return
+                            #try:
+                            data = data.decode()
+                            searchobj = re.search('big_buck_bunny', data)
+                            if searchobj is not None:
+                                data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
+                                data = data.encode()
+                            self.server.send(data)
+                            self.request_time.append(time.time())
+                            searchrate = re.findall(r'/([0-9]*00)Seg', data)
+                            self.bitrate.append(searchrate[0])
+                            searchchunk = re.findall(r'/vod/[0-9]*00Seg.*Frag[0-9]*', data)
+                            self.chunkname.append(searchchunk[0])
+                            #except Exception:
+                            #    print "Server lost"
+                            #    self.client.close()
+                            #    return
                         elif soc is self.server:
                             #try:
                             self.client.send(data)
