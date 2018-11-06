@@ -65,7 +65,7 @@ class ConnHandler:
                         if soc is self.client:
                             #try:
                             data = data.decode()
-                            searchobj = re.findall('http://127.0.0.1:8000/vod/big_buck_bunny.f4m', data)
+                            searchobj = re.findall('big_buck_bunny', data)
                             if len(searchobj) > 0:
                                 print "xml start test"
                                 data_1 = data
