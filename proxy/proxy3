@@ -65,7 +65,7 @@ class ConnHandler:
                         if soc is self.client:
                             #try:
                             data = data.decode()
-                            searchobj = re.search('big_buck_bunny', data)
+                            searchobj = 1 #re.search('big_buck_bunny', data)
                             if searchobj is not 0:
                                 print "xml start test"
                                 data_1 = data
