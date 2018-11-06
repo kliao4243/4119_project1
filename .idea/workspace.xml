@@ -49,13 +49,13 @@
           <entry key="proxy" value="2150" />
           <entry key="proxy1" value="788" />
           <entry key="proxy2" value="1938" />
-          <entry key="proxy3" value="1327" />
+          <entry key="proxy3" value="1332" />
           <entry key="py" value="149" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="6352" />
+          <entry key="Python" value="6357" />
         </counts>
       </usages-collector>
     </session>
@@ -89,7 +89,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/proxy/proxy2">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-764">
+            <state relative-caret-position="-782">
               <caret line="30" column="27" selection-start-line="30" selection-start-column="27" selection-end-line="30" selection-end-column="27" />
               <folding>
                 <element signature="e#23#33#0" expanded="true" />
@@ -101,11 +101,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/proxy/proxy3">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="66" column="1" selection-start-line="66" selection-start-column="1" selection-end-line="93" selection-end-column="68" />
+            <state relative-caret-position="361">
+              <caret line="67" column="41" selection-start-line="67" selection-start-column="41" selection-end-line="67" selection-end-column="41" />
               <folding>
                 <element signature="e#23#33#0" expanded="true" />
-                <marker date="1541477654855" expanded="true" signature="854:860" ph="..." />
+                <marker date="1541477885735" expanded="true" signature="854:860" ph="..." />
               </folding>
             </state>
           </provider>
@@ -376,7 +376,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/proxy/proxy2">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-764">
+        <state relative-caret-position="-782">
           <caret line="30" column="27" selection-start-line="30" selection-start-column="27" selection-end-line="30" selection-end-column="27" />
           <folding>
             <element signature="e#23#33#0" expanded="true" />
@@ -386,11 +386,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/proxy/proxy3">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="66" column="1" selection-start-line="66" selection-start-column="1" selection-end-line="93" selection-end-column="68" />
+        <state relative-caret-position="361">
+          <caret line="67" column="41" selection-start-line="67" selection-start-column="41" selection-end-line="67" selection-end-column="41" />
           <folding>
             <element signature="e#23#33#0" expanded="true" />
-            <marker date="1541477654855" expanded="true" signature="854:860" ph="..." />
+            <marker date="1541477885735" expanded="true" signature="854:860" ph="..." />
           </folding>
         </state>
       </provider>
