@@ -92,7 +92,7 @@ class ConnHandler:
                                 temp_available = [x for x in self.available_bit_rate if x < temp_max]
                                 if len(temp_available) > 0:
                                     self.transmit_bitrate = max(temp_available)
-                                else:
+                                elif len(self.available_bit_rate) > 0:
                                     self.transmit_bitrate = min(self.available_bit_rate)
 
                             searchchunk = re.findall(r'/vod/[0-9]*0Seg.*Frag[0-9]*', data)
