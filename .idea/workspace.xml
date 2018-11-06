@@ -101,11 +101,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/proxy/proxy3">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="67" column="66" selection-start-line="67" selection-start-column="66" selection-end-line="67" selection-end-column="66" />
+            <state relative-caret-position="628">
+              <caret line="79" column="65" selection-start-line="79" selection-start-column="65" selection-end-line="79" selection-end-column="65" />
               <folding>
                 <element signature="e#23#33#0" expanded="true" />
-                <marker date="1541479269707" expanded="true" signature="854:860" ph="..." />
+                <marker date="1541479391002" expanded="true" signature="854:860" ph="..." />
               </folding>
             </state>
           </provider>
@@ -386,11 +386,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/proxy/proxy3">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="67" column="66" selection-start-line="67" selection-start-column="66" selection-end-line="67" selection-end-column="66" />
+        <state relative-caret-position="628">
+          <caret line="79" column="65" selection-start-line="79" selection-start-column="65" selection-end-line="79" selection-end-column="65" />
           <folding>
             <element signature="e#23#33#0" expanded="true" />
-            <marker date="1541479269707" expanded="true" signature="854:860" ph="..." />
+            <marker date="1541479391002" expanded="true" signature="854:860" ph="..." />
           </folding>
         </state>
       </provider>
