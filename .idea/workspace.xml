@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8ce55bfa-bd12-4f94-972c-c908a983323a" name="Default Changelist" comment="" />
+    <list default="true" id="8ce55bfa-bd12-4f94-972c-c908a983323a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/proxy/proxy3" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/proxy3" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,11 +101,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/proxy/proxy3">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="431">
-              <caret line="73" column="56" lean-forward="true" selection-start-line="73" selection-start-column="56" selection-end-line="73" selection-end-column="56" />
+            <state relative-caret-position="341">
+              <caret line="67" column="40" selection-start-line="67" selection-start-column="40" selection-end-line="67" selection-end-column="40" />
               <folding>
                 <element signature="e#23#33#0" expanded="true" />
-                <marker date="1541477940496" expanded="true" signature="854:860" ph="..." />
+                <marker date="1541478226761" expanded="true" signature="854:860" ph="..." />
               </folding>
             </state>
           </provider>
@@ -384,11 +386,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/proxy/proxy3">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="73" column="56" lean-forward="true" selection-start-line="73" selection-start-column="56" selection-end-line="73" selection-end-column="56" />
+        <state relative-caret-position="341">
+          <caret line="67" column="40" selection-start-line="67" selection-start-column="40" selection-end-line="67" selection-end-column="40" />
           <folding>
             <element signature="e#23#33#0" expanded="true" />
-            <marker date="1541477940496" expanded="true" signature="854:860" ph="..." />
+            <marker date="1541478226761" expanded="true" signature="854:860" ph="..." />
           </folding>
         </state>
       </provider>
