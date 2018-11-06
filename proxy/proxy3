@@ -75,7 +75,7 @@ class ConnHandler:
                                 data = data.decode()
                                 searchobj = re.search('big_buck_bunny', data)
                                 if searchobj is not 0:
-                                    data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
+                                    #data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
                                     data = data.encode()
                                     #data_1 = data_1.encode()
                                     #self.server.send(data_1)
@@ -98,20 +98,21 @@ class ConnHandler:
                                 return
                         elif soc is self.server:
                             #try:
+                            #searchxml = re.findall('Content-Type: text/xml', data)
+                            #if len(searchxml) > 0:
+                            #    self.xml_count += 1
+                            #    print(self.xml_count)
+                            #    root = ET.fromstring(data)
+                            #    for media in root.findall('media'):
+                            #        temp_bitrate = media.tind
+                                # print data
+                            #    if self.xml_count == 2:
+                            #        print "xml break"
+                            #        continue
+
                             self.client.send(data)
                             searchobj = re.search('HTTP/1.1', data)
                             if searchobj is not None:
-
-                                searchxml = re.findall('text/xml', data)
-                                if len(searchxml) > 0:
-                                    self.xml_count += 1
-                                    print(self.xml_count)
-                                    print data
-                                    if self.xml_count == 2:
-                                        print "xml break"
-                                        break
-
-
                                 self.response_count += 1
                                 if self.response_count > 1:
                                     searchlength = re.findall(r'Content-Length: ([0-9]*)', data)
