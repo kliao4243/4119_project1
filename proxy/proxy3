@@ -19,17 +19,23 @@ server_ip = sys.argv[5]
 class ConnHandler:
 
     def __init__(self, listen_socket):
+        # attributes for transmitting data
         self.client, _ = listen_socket.accept()
         self.server = None
         self.buffer_size = 8192
+        # attributes for log files
         self.response_count = 0
         self.request_time = list()
         self.bitrate = list()
         self.chunkname = list()
+        # attributes for calculating throughput
         self.last_pkt_time = 0
         self.throughput = 0
+        # attributes for setting bitrate
         self.available_bit_rate = list()
         self.xml_count = 0
+        self.transmit_bitrate = 0
+
 
     def process_connection(self):
         request = self.client.recv(self.buffer_size)
@@ -62,7 +68,7 @@ class ConnHandler:
                         return
                     if data:
                         if soc is self.client:
-                            #try:
+                            # try:
                             data = data.decode()
                             searchobj = re.findall('big_buck_bunny', data)
                             if len(searchobj) > 0:
@@ -79,27 +85,40 @@ class ConnHandler:
                                     for bitrate in searchbitrate:
                                         self.available_bit_rate.append(int(bitrate))
                                     print self.available_bit_rate
-                                    self.bitrate = min(self.available_bit_rate)
-                            self.server.send(data)
+                                    self.transmit_bitrate = min(self.available_bit_rate)
                             self.request_time.append(time.time())
-                            searchrate = re.findall(r'/([0-9]*0)Seg', data)
-                            if len(searchrate) > 0:
-                                self.bitrate.append(searchrate[0])
-                            else:
-                                self.bitrate.append("Bit rate not ready")
+
+                            #searchrate = re.findall(r'/([0-9]*0)Seg', data)
+                            #if len(searchrate) > 0:
+                                #self.bitrate.append(searchrate[0])
+                            #    temp_bitrate = searchrate[0]
+                            #else:
+                            #    self.bitrate.append("Bit rate not ready")
+
+                            if self.throughput > 0:
+                                temp_max = self.throughput * 2/3
+                                temp_available = (x for x in self.available_bit_rate if x < temp_max)
+                                self.transmit_bitrate = max(temp_available)
+
                             searchchunk = re.findall(r'/vod/[0-9]*0Seg.*Frag[0-9]*', data)
-                            if len(searchrate) > 0:
-                                self.chunkname.append(searchchunk[0])
+                            if len(searchchunk) > 0:
+                                searchrate = re.findall(r'/([0-9]*0)Seg', data)
+                                request_chunk = searchchunk[0].replace(searchrate, str(self.transmit_bitrate))
+                                self.bitrate.append(str(self.transmit_bitrate))
+                                self.chunkname.append(request_chunk)
+                                data = data.replace(searchchunk[0], request_chunk)
                             else:
                                 self.chunkname.append("Not a chunk")
-                            #except Exception:
+                                self.bitrate.append("Bit rate not ready")
+                            self.server.send(data)
+                            # except Exception:
                             #    print "Server lost"
                             #    self.client.close()
                             #    return
                         elif soc is self.server:
-                            #try:
-                            #searchxml = re.findall('Content-Type: text/xml', data)
-                            #if len(searchxml) > 0:
+                            # try:
+                            # searchxml = re.findall('Content-Type: text/xml', data)
+                            # if len(searchxml) > 0:
                             #    self.xml_count += 1
                             #    if self.xml_count == 2:
                             #        xml_data = str(data)
@@ -109,14 +128,14 @@ class ConnHandler:
                             #            self.available_bit_rate.append(int(bitrate))
                             #        print self.available_bit_rate
                             #        continue
-                                #self.xml_count += 1
-                                #print(self.xml_count)
-                                #xml_data = str(data)
-                                #root = ET.fromstring(xml_data)
-                                #for media in root.findall('media'):
-                                #    tempbitrate = media.find('bitrate').text
-                                #    self.available_bit_rate.append(int(tempbitrate))
-                                #    print self.available_bit_rate
+                            # self.xml_count += 1
+                            # print(self.xml_count)
+                            # xml_data = str(data)
+                            # root = ET.fromstring(xml_data)
+                            # for media in root.findall('media'):
+                            #    tempbitrate = media.find('bitrate').text
+                            #    self.available_bit_rate.append(int(tempbitrate))
+                            #    print self.available_bit_rate
                             #    if self.xml_count == 2:
                             #        print "xml break"
                             #        continue
@@ -141,7 +160,7 @@ class ConnHandler:
                                     add_line = cur_time + " " + duration + " " + tput + " " + str(
                                         self.throughput) + " " + btr + " " + server_ip + " " + self.chunkname[
                                                    self.response_count - 1]
-                                    #print add_line
+                                    # print add_line
                                     if btr in self.available_bit_rate:
                                         try:
                                             f = open(log_file, "a+")
@@ -155,10 +174,10 @@ class ConnHandler:
                             self.last_pkt_time = time.time()
                             # seachobj = re.search('text/xml')
 
-                            #except Exception:
-                                #print "Client lost"
-                                #self.server.close()
-                                #return
+                            # except Exception:
+                            # print "Client lost"
+                            # self.server.close()
+                            # return
                     else:
                         break
             self.client.close()
