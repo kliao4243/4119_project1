@@ -24,13 +24,13 @@ class ConnHandler:
         self.server = None
         self.buffer_size = 8192
         self.response_count = 0
-        self.xml_count = 0
         self.request_time = list()
         self.bitrate = list()
         self.chunkname = list()
         self.last_pkt_time = 0
         self.throughput = 0
         self.available_bit_rate = list()
+        self.xml_count = 0
 
     def process_connection(self):
         request = self.client.recv(self.buffer_size)
@@ -98,21 +98,21 @@ class ConnHandler:
                                 return
                         elif soc is self.server:
                             #try:
+                            self.client.send(data)
                             searchobj = re.search('HTTP/1.1', data)
                             if searchobj is not None:
 
-                                #searchxml = re.findall('text/xml', data)
-                                #if len(searchxml) > 0:
-                                #    self.xml_count += 1
-                                #    print(self.xml_count)
-                                    #print data
-                                    #if self.xml_count == 2:
-                                    #    print "xml break"
-                                    #    break
+                                searchxml = re.findall('text/xml', data)
+                                if len(searchxml) > 0:
+                                    self.xml_count += 1
+                                    print(self.xml_count)
+                                    print data
+                                    if self.xml_count == 2:
+                                        print "xml break"
+                                        break
 
 
                                 self.response_count += 1
-                                self.client.send(data)
                                 if self.response_count > 1:
                                     searchlength = re.findall(r'Content-Length: ([0-9]*)', data)
                                     if len(searchlength) > 0:
