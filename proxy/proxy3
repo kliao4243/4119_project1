@@ -101,6 +101,7 @@ class ConnHandler:
                             searchxml = re.findall('Content-Type: text/xml', data)
                             if len(searchxml) > 0:
                                 xml_data = str(data)
+                                print xml_data
                                 searchbitrate = re.findall(r'bitrate="(<0-9>)"', xml_data)
                                 for bitrate in searchbitrate:
                                     self.available_bit_rate.append(bitrate)
