@@ -88,7 +88,7 @@ class ConnHandler:
                                     self.transmit_bitrate = min(self.available_bit_rate)
 
                             if self.throughput > 0:
-                                temp_max = self.throughput * 2 / 3
+                                temp_max = self.throughput / 4
                                 temp_available = [x for x in self.available_bit_rate if x < temp_max]
                                 if len(temp_available) > 0:
                                     self.transmit_bitrate = max(temp_available)
