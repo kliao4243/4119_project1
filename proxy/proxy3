@@ -81,13 +81,13 @@ class ConnHandler:
                                     #self.server.send(data_1)
                                 self.server.send(data)
                                 self.request_time.append(time.time())
-                                searchrate = re.findall(r'/([0-9]*00)Seg', data)
+                                searchrate = re.findall(r'/([0-9]*0)Seg', data)
                                 if len(searchrate) > 0:
                                     self.bitrate.append(searchrate[0])
                                 else:
                                     # todo
                                     self.bitrate.append("lowest bitrate")
-                                searchchunk = re.findall(r'/vod/[0-9]*00Seg.*Frag[0-9]*', data)
+                                searchchunk = re.findall(r'/vod/[0-9]*0Seg.*Frag[0-9]*', data)
                                 if len(searchrate) > 0:
                                     self.chunkname.append(searchchunk[0])
                                 else:
@@ -98,14 +98,15 @@ class ConnHandler:
                                 return
                         elif soc is self.server:
                             #try:
-                            #searchxml = re.findall('Content-Type: text/xml', data)
-                            #if len(searchxml) > 0:
-                            #    self.xml_count += 1
-                            #    print(self.xml_count)
-                            #    root = ET.fromstring(data)
-                            #    for media in root.findall('media'):
-                            #        temp_bitrate = media.tind
-                                # print data
+                            searchxml = re.findall('Content-Type: text/xml', data)
+                            if len(searchxml) > 0:
+                                self.xml_count += 1
+                                print(self.xml_count)
+                                root = ET.fromstring(data)
+                                for media in root.findall('media'):
+                                    tempbitrate = media.find('bitrate').text
+                                    self.available_bit_rate.append(int(tempbitrate))
+                                    print self.available_bit_rate
                             #    if self.xml_count == 2:
                             #        print "xml break"
                             #        continue
