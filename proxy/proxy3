@@ -98,12 +98,13 @@ class ConnHandler:
                             if self.throughput > 0:
                                 temp_max = self.throughput * 2/3
                                 temp_available = (x for x in self.available_bit_rate if x < temp_max)
-                                self.transmit_bitrate = max(temp_available)
+                                if len(temp_available) > 0:
+                                    self.transmit_bitrate = max(temp_available)
 
                             searchchunk = re.findall(r'/vod/[0-9]*0Seg.*Frag[0-9]*', data)
                             if len(searchchunk) > 0:
                                 searchrate = re.findall(r'/([0-9]*0)Seg', data)
-                                request_chunk = searchchunk[0].replace(searchrate, str(self.transmit_bitrate))
+                                request_chunk = searchchunk[0].replace(searchrate[0], str(self.transmit_bitrate))
                                 self.bitrate.append(str(self.transmit_bitrate))
                                 self.chunkname.append(request_chunk)
                                 data = data.replace(searchchunk[0], request_chunk)
