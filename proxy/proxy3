@@ -104,10 +104,11 @@ class ConnHandler:
                                 searchxml = re.findall('text/xml', data)
                                 if len(searchxml) > 0:
                                     self.xml_count += 1
+                                    print(self.xml_count)
                                     #print data
-                                    if self.xml_count == 2:
-                                        print "xml break"
-                                        break
+                                    #if self.xml_count == 2:
+                                    #    print "xml break"
+                                    #    break
 
 
                                 self.response_count += 1
@@ -128,7 +129,7 @@ class ConnHandler:
                                     add_line = cur_time + " " + duration + " " + tput + " " + str(
                                         self.throughput) + " " + btr + " " + server_ip + " " + self.chunkname[
                                                    self.response_count - 1]
-                                    print add_line
+                                    #print add_line
                                     try:
                                         f = open(log_file, "a+")
                                         f.write(add_line + "\r\n")
