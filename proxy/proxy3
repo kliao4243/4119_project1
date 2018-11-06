@@ -127,7 +127,7 @@ class ConnHandler:
                                         f.write(add_line + "\r\n")
                                         f.close()
 
-                                    searchxml = re.findall('text/xml')
+                                    searchxml = re.findall('text/xml', data)
                                     if len(searchxml) > 0:
                                         print data
                             self.last_pkt_time = time.time()
