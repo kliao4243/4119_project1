@@ -42,9 +42,9 @@ class ConnHandler:
                 request = request.decode()
                 searchobj = re.search('big_buck_bunny', request)
                 if searchobj is not None:
-                    request_1 = request.replace("big_buck_bunny", "big_buck_bunny_nolist")
+                    request = request.replace("big_buck_bunny", "big_buck_bunny_nolist")
                     request = request.encode()
-                    request_1 = request_1.encode()
+                    #request_1 = request_1.encode()
                     #self.server.send(request_1)
                 self.server.send(request)
                 self.request_time.append(time.time())
@@ -75,9 +75,9 @@ class ConnHandler:
                                 data = data.decode()
                                 searchobj = re.search('big_buck_bunny', data)
                                 if searchobj is not 0:
-                                    data_1 = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
+                                    data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
                                     data = data.encode()
-                                    data_1 = data_1.encode()
+                                    #data_1 = data_1.encode()
                                     #self.server.send(data_1)
                                 self.server.send(data)
                                 self.request_time.append(time.time())
