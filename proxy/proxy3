@@ -39,16 +39,8 @@ class ConnHandler:
             self.server.bind((fake_ip, 0))
             try:
                 self.server.connect((server_ip, 8080))
-                request = request.decode()
-                searchobj = re.search('big_buck_bunny', request)
-                if searchobj is not None:
-                    request_1 = request.replace("big_buck_bunny", "big_buck_bunny_nolist")
-                    request = request.encode()
-                    request_1 = request_1.encode()
-                    self.server.send(request_1)
                 self.server.send(request)
                 self.request_time.append(time.time())
-                # todo
                 self.bitrate.append("Bit rate not ready")
                 self.chunkname.append("Not a chunk")
             except Exception:
@@ -71,43 +63,52 @@ class ConnHandler:
                         return
                     if data:
                         if soc is self.client:
-                            try:
-                                data = data.decode()
-                                searchobj = re.search('big_buck_bunny', data)
-                                if searchobj is not 0:
-                                    data_1 = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
-                                    data = data.encode()
-                                    data_1 = data_1.encode()
-                                    self.server.send(data_1)
-                                self.server.send(data)
-                                self.request_time.append(time.time())
-                                searchrate = re.findall(r'/([0-9]*0)Seg', data)
-                                if len(searchrate) > 0:
-                                    self.bitrate.append(searchrate[0])
-                                else:
-                                    self.bitrate.append("Bit rate not ready")
-                                searchchunk = re.findall(r'/vod/[0-9]*0Seg.*Frag[0-9]*', data)
-                                if len(searchrate) > 0:
-                                    self.chunkname.append(searchchunk[0])
-                                else:
-                                    self.chunkname.append("Not a chunk")
-                            except Exception:
-                                print "Server lost"
-                                self.client.close()
-                                return
-                        elif soc is self.server:
                             #try:
-                            searchxml = re.findall('Content-Type: text/xml', data)
-                            if len(searchxml) > 0:
-                                self.xml_count += 1
-                                if self.xml_count == 2:
-                                    xml_data = str(data)
-                                    print xml_data
-                                    searchbitrate = re.findall(r'bitrate="([0-9]*)"', xml_data)
+                            data = data.decode()
+                            searchobj = re.search('big_buck_bunny', data)
+                            if searchobj is not 0:
+                                data_1 = data
+                                data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
+                                data = data.encode()
+                                data_1 = data_1.encode()
+                                self.server.send(data_1)
+                                f4mfile = self.server.recv(self.buffer_size)
+                                searchxml = re.findall('Content-Type: text/xml', f4mfile)
+                                if len(searchxml) > 0:
+                                    print(f4mfile)
+                                    searchbitrate = re.findall(r'bitrate="([0-9]*)"', f4mfile)
                                     for bitrate in searchbitrate:
                                         self.available_bit_rate.append(int(bitrate))
                                     print self.available_bit_rate
-                                    continue
+                            self.server.send(data)
+                            self.request_time.append(time.time())
+                            searchrate = re.findall(r'/([0-9]*0)Seg', data)
+                            if len(searchrate) > 0:
+                                self.bitrate.append(searchrate[0])
+                            else:
+                                self.bitrate.append("Bit rate not ready")
+                            searchchunk = re.findall(r'/vod/[0-9]*0Seg.*Frag[0-9]*', data)
+                            if len(searchrate) > 0:
+                                self.chunkname.append(searchchunk[0])
+                            else:
+                                self.chunkname.append("Not a chunk")
+                            #except Exception:
+                            #    print "Server lost"
+                            #    self.client.close()
+                            #    return
+                        elif soc is self.server:
+                            #try:
+                            #searchxml = re.findall('Content-Type: text/xml', data)
+                            #if len(searchxml) > 0:
+                            #    self.xml_count += 1
+                            #    if self.xml_count == 2:
+                            #        xml_data = str(data)
+                            #        print xml_data
+                            #        searchbitrate = re.findall(r'bitrate="([0-9]*)"', xml_data)
+                            #        for bitrate in searchbitrate:
+                            #            self.available_bit_rate.append(int(bitrate))
+                            #        print self.available_bit_rate
+                            #        continue
                                 #self.xml_count += 1
                                 #print(self.xml_count)
                                 #xml_data = str(data)
