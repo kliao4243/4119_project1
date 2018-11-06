@@ -101,10 +101,10 @@ class ConnHandler:
                             searchobj = re.search('HTTP/1.1', data)
                             if searchobj is not None:
 
-                                searchxml = re.findall('text/xml', data)
-                                if len(searchxml) > 0:
-                                    self.xml_count += 1
-                                    print(self.xml_count)
+                                #searchxml = re.findall('text/xml', data)
+                                #if len(searchxml) > 0:
+                                #    self.xml_count += 1
+                                #    print(self.xml_count)
                                     #print data
                                     #if self.xml_count == 2:
                                     #    print "xml break"
