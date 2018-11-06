@@ -5,6 +5,7 @@ import time
 import re
 from socket import socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR
 from thread import *
+import xml.etree.ElementTree as ET
 
 # Take arguments port number and ip addesses through sys.argv.
 
@@ -103,8 +104,9 @@ class ConnHandler:
                                 searchxml = re.findall('text/xml', data)
                                 if len(searchxml) > 0:
                                     self.xml_count += 1
-                                    print data
+                                    #print data
                                     if self.xml_count == 2:
+                                        print "xml break"
                                         break
 
 
