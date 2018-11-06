@@ -138,11 +138,16 @@ class ConnHandler:
                                     add_line = cur_time + " " + duration + " " + tput + " " + str(
                                         self.throughput) + " " + btr + " " + server_ip + " " + self.chunkname[
                                                    self.response_count - 1]
-                                    print add_line
-                                    if btr in str(self.available_bit_rate):
-                                        f = open(log_file, "a+")
-                                        f.write(add_line + "\r\n")
-                                        f.close()
+                                    if int(btr) in self.available_bit_rate:
+                                        #print add_line
+                                        try:
+                                            f = open(log_file, "a+")
+                                            f.write(add_line + "\r\n")
+                                            f.close()
+                                        except Exception:
+                                            f = open(log_file, "w+")
+                                            f.write(add_line + "\r\n")
+                                            f.close()
 
                             self.last_pkt_time = time.time()
                             # seachobj = re.search('text/xml')
