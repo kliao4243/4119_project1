@@ -67,6 +67,7 @@ class ConnHandler:
                             data = data.decode()
                             searchobj = re.search('big_buck_bunny', data)
                             if searchobj is not 0:
+                                print "xml start test"
                                 data_1 = data
                                 data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
                                 data = data.encode()
