@@ -5,7 +5,6 @@ import time
 import re
 from socket import socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR
 from thread import *
-import xml.etree.ElementTree as ET
 
 # Take arguments port number and ip addesses through sys.argv.
 
@@ -80,6 +79,7 @@ class ConnHandler:
                                     for bitrate in searchbitrate:
                                         self.available_bit_rate.append(int(bitrate))
                                     print self.available_bit_rate
+                                    self.bitrate = min(self.available_bit_rate)
                             self.server.send(data)
                             self.request_time.append(time.time())
                             searchrate = re.findall(r'/([0-9]*0)Seg', data)
@@ -142,14 +142,15 @@ class ConnHandler:
                                         self.throughput) + " " + btr + " " + server_ip + " " + self.chunkname[
                                                    self.response_count - 1]
                                     #print add_line
-                                    try:
-                                        f = open(log_file, "a+")
-                                        f.write(add_line + "\r\n")
-                                        f.close()
-                                    except Exception:
-                                        f = open(log_file, "w+")
-                                        f.write(add_line + "\r\n")
-                                        f.close()
+                                    if btr in self.available_bit_rate:
+                                        try:
+                                            f = open(log_file, "a+")
+                                            f.write(add_line + "\r\n")
+                                            f.close()
+                                        except Exception:
+                                            f = open(log_file, "w+")
+                                            f.write(add_line + "\r\n")
+                                            f.close()
 
                             self.last_pkt_time = time.time()
                             # seachobj = re.search('text/xml')
