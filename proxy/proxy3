@@ -21,7 +21,7 @@ class ConnHandler:
     def __init__(self, listen_socket):
         self.client, _ = listen_socket.accept()
         self.server = None
-        self.buffer_size = 4096
+        self.buffer_size = 8192
         self.response_count = 0
         self.xml_count = 0
         self.request_time = list()
@@ -97,10 +97,19 @@ class ConnHandler:
                                 return
                         elif soc is self.server:
                             #try:
-                            self.client.send(data)
                             searchobj = re.search('HTTP/1.1', data)
                             if searchobj is not None:
+
+                                searchxml = re.findall('text/xml', data)
+                                if len(searchxml) > 0:
+                                    self.xml_count += 1
+                                    print data
+                                    if self.xml_count == 2:
+                                        break
+
+
                                 self.response_count += 1
+                                self.client.send(data)
                                 if self.response_count > 1:
                                     searchlength = re.findall(r'Content-Length: ([0-9]*)', data)
                                     if len(searchlength) > 0:
@@ -127,9 +136,6 @@ class ConnHandler:
                                         f.write(add_line + "\r\n")
                                         f.close()
 
-                                    searchxml = re.findall('text/xml', data)
-                                    if len(searchxml) > 0:
-                                        print data
                             self.last_pkt_time = time.time()
                             # seachobj = re.search('text/xml')
 
