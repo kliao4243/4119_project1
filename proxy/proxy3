@@ -79,6 +79,7 @@ class ConnHandler:
                                 print "xml test3"
                                 searchxml = re.findall('Content-Type: text/xml', f4mfile)
                                 print "test 4"
+                                print f4mfile
                                 if len(searchxml) > 0:
                                     #print(f4mfile)
                                     print "test 5"
