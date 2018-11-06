@@ -75,6 +75,7 @@ class ConnHandler:
                                 self.server.send(data_1)
                                 print "xml test2"
                                 f4mfile = self.server.recv(self.buffer_size)
+                                f4mfile = str(f4mfile)
                                 print "xml test3"
                                 searchxml = re.findall('Content-Type: text/xml', f4mfile)
                                 if len(searchxml) > 0:

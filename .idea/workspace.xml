@@ -49,13 +49,13 @@
           <entry key="proxy" value="2150" />
           <entry key="proxy1" value="788" />
           <entry key="proxy2" value="1938" />
-          <entry key="proxy3" value="1408" />
+          <entry key="proxy3" value="1432" />
           <entry key="py" value="149" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="6433" />
+          <entry key="Python" value="6457" />
         </counts>
       </usages-collector>
     </session>
@@ -101,11 +101,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/proxy/proxy3">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="536">
-              <caret line="80" column="37" selection-start-line="80" selection-start-column="37" selection-end-line="80" selection-end-column="37" />
+            <state relative-caret-position="354">
+              <caret line="77" column="53" selection-start-line="77" selection-start-column="53" selection-end-line="77" selection-end-column="53" />
               <folding>
                 <element signature="e#23#33#0" expanded="true" />
-                <marker date="1541478462986" expanded="true" signature="854:860" ph="..." />
+                <marker date="1541478543893" expanded="true" signature="854:860" ph="..." />
               </folding>
             </state>
           </provider>
@@ -386,11 +386,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/proxy/proxy3">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
-          <caret line="80" column="37" selection-start-line="80" selection-start-column="37" selection-end-line="80" selection-end-column="37" />
+        <state relative-caret-position="354">
+          <caret line="77" column="53" selection-start-line="77" selection-start-column="53" selection-end-line="77" selection-end-column="53" />
           <folding>
             <element signature="e#23#33#0" expanded="true" />
-            <marker date="1541478462986" expanded="true" signature="854:860" ph="..." />
+            <marker date="1541478543893" expanded="true" signature="854:860" ph="..." />
           </folding>
         </state>
       </provider>
