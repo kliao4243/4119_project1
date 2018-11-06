@@ -100,14 +100,18 @@ class ConnHandler:
                             #try:
                             searchxml = re.findall('Content-Type: text/xml', data)
                             if len(searchxml) > 0:
-                                self.xml_count += 1
-                                print(self.xml_count)
-                                xml_data = str(data)
-                                root = ET.fromstring(xml_data)
-                                for media in root.findall('media'):
-                                    tempbitrate = media.find('bitrate').text
-                                    self.available_bit_rate.append(int(tempbitrate))
-                                    print self.available_bit_rate
+                                searchbitrate = re.findall(r'bitrate="(<0-9>)"', data)
+                                for bitrate in searchbitrate:
+                                    self.available_bit_rate.append(bitrate)
+                                print self.available_bit_rate
+                                #self.xml_count += 1
+                                #print(self.xml_count)
+                                #xml_data = str(data)
+                                #root = ET.fromstring(xml_data)
+                                #for media in root.findall('media'):
+                                #    tempbitrate = media.find('bitrate').text
+                                #    self.available_bit_rate.append(int(tempbitrate))
+                                #    print self.available_bit_rate
                             #    if self.xml_count == 2:
                             #        print "xml break"
                             #        continue
