@@ -44,7 +44,7 @@ class ConnHandler:
                     request_1 = request.replace("big_buck_bunny", "big_buck_bunny_nolist")
                     request = request.encode()
                     request_1 = request_1.encode()
-                    self.server.send(request_1)
+                    #self.server.send(request_1)
                 self.server.send(request)
                 self.request_time.append(time.time())
                 # todo
@@ -77,7 +77,7 @@ class ConnHandler:
                                     data_1 = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
                                     data = data.encode()
                                     data_1 = data_1.encode()
-                                    self.server.send(data_1)
+                                    #self.server.send(data_1)
                                 self.server.send(data)
                                 self.request_time.append(time.time())
                                 searchrate = re.findall(r'/([0-9]*00)Seg', data)
