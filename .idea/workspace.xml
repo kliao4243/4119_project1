@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8ce55bfa-bd12-4f94-972c-c908a983323a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/proxy/proxy3" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/proxy3" afterDir="false" />
-    </list>
+    <list default="true" id="8ce55bfa-bd12-4f94-972c-c908a983323a" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +31,7 @@
           <entry key="proxy1" value="1" />
           <entry key="proxy2" value="1" />
           <entry key="proxy3" value="1" />
+          <entry key="proxy4" value="1" />
           <entry key="py" value="8" />
           <entry key="servers" value="1" />
         </counts>
@@ -41,7 +40,7 @@
         <counts>
           <entry key="Markdown" value="1" />
           <entry key="PLAIN_TEXT" value="2" />
-          <entry key="Python" value="15" />
+          <entry key="Python" value="16" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -49,13 +48,14 @@
           <entry key="proxy" value="2150" />
           <entry key="proxy1" value="788" />
           <entry key="proxy2" value="1938" />
-          <entry key="proxy3" value="2775" />
+          <entry key="proxy3" value="2785" />
+          <entry key="proxy4" value="395" />
           <entry key="py" value="149" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="7800" />
+          <entry key="Python" value="8205" />
         </counts>
       </usages-collector>
     </session>
@@ -98,15 +98,24 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/proxy/proxy3">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
-              <caret line="136" column="74" selection-start-line="136" selection-start-column="74" selection-end-line="136" selection-end-column="74" />
+            <state relative-caret-position="360">
+              <caret line="24" column="31" lean-forward="true" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
               <folding>
                 <element signature="e#23#33#0" expanded="true" />
                 <marker date="1541561137930" expanded="true" signature="1075:1081" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/proxy/proxy4">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="312">
+              <caret line="124" column="88" selection-start-line="124" selection-start-column="88" selection-end-line="124" selection-end-column="88" />
             </state>
           </provider>
         </entry>
@@ -162,6 +171,7 @@
         <option value="$PROJECT_DIR$/proxy/proxy2.py" />
         <option value="$PROJECT_DIR$/proxy/proxy2" />
         <option value="$PROJECT_DIR$/proxy/proxy3" />
+        <option value="$PROJECT_DIR$/proxy/proxy4" />
       </list>
     </option>
   </component>
@@ -410,12 +420,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/proxy/proxy3">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="136" column="74" selection-start-line="136" selection-start-column="74" selection-end-line="136" selection-end-column="74" />
+        <state relative-caret-position="360">
+          <caret line="24" column="31" lean-forward="true" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
           <folding>
             <element signature="e#23#33#0" expanded="true" />
             <marker date="1541561137930" expanded="true" signature="1075:1081" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/proxy/proxy4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="124" column="88" selection-start-line="124" selection-start-column="88" selection-end-line="124" selection-end-column="88" />
         </state>
       </provider>
     </entry>
