@@ -51,13 +51,13 @@
           <entry key="proxy1" value="788" />
           <entry key="proxy2" value="1938" />
           <entry key="proxy3" value="2785" />
-          <entry key="proxy4" value="404" />
+          <entry key="proxy4" value="416" />
           <entry key="py" value="149" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="8214" />
+          <entry key="Python" value="8226" />
         </counts>
       </usages-collector>
     </session>
@@ -116,8 +116,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/proxy/proxy4">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="133" column="91" selection-start-line="133" selection-start-column="91" selection-end-line="133" selection-end-column="91" />
+            <state relative-caret-position="301">
+              <caret line="124" column="48" selection-start-line="124" selection-start-column="36" selection-end-line="124" selection-end-column="48" />
             </state>
           </provider>
         </entry>
@@ -160,6 +160,7 @@
       <find>xml_count</find>
       <find>server_flag</find>
       <find>-l</find>
+      <find>packet_count</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -433,8 +434,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/proxy/proxy4">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="133" column="91" selection-start-line="133" selection-start-column="91" selection-end-line="133" selection-end-column="91" />
+        <state relative-caret-position="301">
+          <caret line="124" column="48" selection-start-line="124" selection-start-column="36" selection-end-line="124" selection-end-column="48" />
         </state>
       </provider>
     </entry>
