@@ -70,10 +70,10 @@ class ConnHandler:
                             # try:
                             self.request_time.append(time.time())
                             data = data.decode()
-                            searchobj = re.findall('big_buck_bunny', data)
+                            searchobj = re.findall(r'/vod/(.*).f4m', data)
                             if len(searchobj) > 0:
                                 data_1 = data
-                                data = data.replace("big_buck_bunny", "big_buck_bunny_nolist")
+                                data = data.replace(searchobj[0], searchobj[0]+"_nolist")
                                 data = data.encode()
                                 data_1 = data_1.encode()
                                 self.server.send(data_1)
@@ -88,7 +88,7 @@ class ConnHandler:
                                     self.transmit_bitrate = min(self.available_bit_rate)
 
                             if self.throughput > 0:
-                                temp_max = self.throughput / 4
+                                temp_max = self.throughput * 2 / 3
                                 temp_available = [x for x in self.available_bit_rate if x < temp_max]
                                 if len(temp_available) > 0:
                                     self.transmit_bitrate = max(temp_available)
