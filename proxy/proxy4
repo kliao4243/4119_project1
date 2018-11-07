@@ -24,6 +24,7 @@ class ConnHandler:
         self.server = None
         self.buffer_size = 8192
         self.chunk_length = 0
+        self.content_length = list()
         self.packet_count = 0
         # attributes for log files
         self.new_file = 0
@@ -71,6 +72,33 @@ class ConnHandler:
                             # try:
                             self.request_time.append(time.time())
                             data = data.decode()
+
+                            duration = str(time.time() - self.request_time[len(self.request_time)-2])
+                            cur_time = str(time.time())
+                            chunk_kb = float(self.content_length[len(self.request_time)-2] * 8 / 1024)
+                            new_throughput = str(chunk_kb / float(duration))
+                            temp1 = alpha * float(new_throughput)
+                            temp2 = (1 - alpha) * self.throughput
+                            self.throughput = temp1 + temp2
+                            btr = self.bitrate[len(self.request_time)-2]
+                            add_line = cur_time + " " + duration + " " + new_throughput + " " + \
+                                       str(self.throughput) + " " + btr + " " + server_ip + " " + \
+                                       self.chunkname[self.response_count - 1]
+                            if btr in str(self.available_bit_rate):
+                                print add_line
+                                if self.new_file == 0:
+                                    f = open(log_file, "w+")
+                                    f.write(add_line + "\r\n")
+                                    f.close()
+                                    self.new_file = 1
+                                else:
+                                    f = open(log_file, "a+")
+                                    f.write(add_line + "\r\n")
+                                    f.close()
+
+
+
+
                             searchobj = re.findall(r'/vod/(.*).f4m', data)
                             if len(searchobj) > 0:
                                 data_1 = data
@@ -112,7 +140,17 @@ class ConnHandler:
                             #    self.client.close()
                             #    return
                         elif soc is self.server:
+
+                            self.client.send(data)
+                            search_obj = re.search('HTTP/1.1', data)
+                            if search_obj is not None:
+                                search_length = re.findall(r'Content-Length: ([0-9]*)', data)
+                                if len(search_length) > 0:
+                                    self.content_length.append(search_length[0])
+                                else:
+                                    self.content_length.append("not available")
                             # try:
+                            '''
                             self.client.send(data)
                             search_obj = re.search('HTTP/1.1', data)
                             self.packet_count += 1
@@ -127,11 +165,6 @@ class ConnHandler:
                                 cur_time = str(time.time())
                                 chunk_kb = float(self.chunk_length * 8 / 1024)
                                 new_throughput = str(chunk_kb / float(duration))
-                                if self.response_count > 5:
-                                #    if float(new_throughput)>self.throughput*4:
-                                #        new_throughput = str(self.throughput*3)
-                                    if float(new_throughput)>98364:
-                                        new_throughput = str(float(new_throughput) / 10)
                                 temp1 = alpha * float(new_throughput)
                                 temp2 = (1 - alpha) * self.throughput
                                 self.throughput = temp1 + temp2
@@ -151,6 +184,7 @@ class ConnHandler:
                                         f.write(add_line + "\r\n")
                                         f.close()
                                 self.packet_count = 0
+                            '''
                             # except Exception:
                             # print "Client lost"
                             # self.server.close()
