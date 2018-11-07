@@ -32,6 +32,7 @@ class ConnHandler:
         # attributes for calculating throughput
         self.last_pkt_time = 0
         self.throughput = 0
+        self.last_length = 0
         # attributes for setting bitrate
         self.available_bit_rate = list()
         self.xml_count = 0
@@ -125,14 +126,15 @@ class ConnHandler:
                                         contentlength = 0
                                     cur_time = str(time.time())
                                     duration = str(self.last_pkt_time - self.request_time[self.response_count - 2])
-                                    tput = str(contentlength / float(duration))
+                                    tput = str(self.last_length / float(duration))
+                                    self.last_length = contentlength
                                     temp1 = alpha * float(tput)
                                     temp2 = (1 - alpha) * self.throughput
                                     self.throughput = temp1 + temp2
                                     btr = self.bitrate[self.response_count - 2]
                                     add_line = cur_time + " " + duration + " " + tput + " " + str(
                                         self.throughput) + " " + btr + " " + server_ip + " " + self.chunkname[
-                                                   self.response_count - 1]
+                                                   self.response_count - 2]
                                     if btr in str(self.available_bit_rate):
                                         print add_line
                                         if self.new_file == 0:
