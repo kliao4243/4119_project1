@@ -98,7 +98,8 @@ class ConnHandler:
                             searchchunk = re.findall(r'/vod/[0-9]*0Seg.*Frag[0-9]*', data)
                             if len(searchchunk) > 0:
                                 searchrate = re.findall(r'/([0-9]*0)Seg', data)
-                                request_chunk = searchchunk[0].replace(searchrate[0], str(self.transmit_bitrate))
+                                #request_chunk = searchchunk[0].replace(searchrate[0], str(self.transmit_bitrate))
+                                request_chunk = searchchunk[0].replace(searchrate[0], "10")
                                 self.bitrate.append(str(self.transmit_bitrate))
                                 self.chunkname.append(request_chunk)
                                 data = data.replace(searchchunk[0], request_chunk)
