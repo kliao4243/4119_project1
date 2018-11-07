@@ -131,7 +131,7 @@ class ConnHandler:
                                 temp2 = (1 - alpha) * self.throughput
                                 self.throughput = temp1 + temp2
                                 btr = self.bitrate[self.response_count - 1]
-                                add_line = cur_time + " " + duration + " " + tput + " " + str(
+                                add_line = cur_time + " " + duration + " " + new_throughput + " " + str(
                                     self.throughput) + " " + btr + " " + server_ip + " " + self.chunkname[self.response_count - 1]
                                 if btr in str(self.available_bit_rate):
                                     print add_line
