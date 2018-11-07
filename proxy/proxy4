@@ -75,7 +75,7 @@ class ConnHandler:
 
                             duration = str(time.time() - self.request_time[len(self.request_time)-2])
                             cur_time = str(time.time())
-                            chunk_kb = float(self.content_length[len(self.request_time)-2] * 8 / 1024)
+                            chunk_kb = float(self.content_length[len(self.request_time)-2]) * 8 / 1024
                             new_throughput = str(chunk_kb / float(duration))
                             temp1 = alpha * float(new_throughput)
                             temp2 = (1 - alpha) * self.throughput
