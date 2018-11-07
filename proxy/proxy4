@@ -123,8 +123,8 @@ class ConnHandler:
                                 search_length = re.findall(r'Content-Length: ([0-9]*)', data)
                                 if len(search_length) > 0:
                                     self.chunk_length = search_length[0]
-
-                            if self.packet_count * self.buffer_size > self.chunk_length:
+                            current_length = self.packet_count * self.buffer_size
+                            if current_length > self.chunk_length:
                                 print "Yes"
                                 cur_time = str(time.time())
                                 duration = str(float(cur_time) - self.request_time[self.response_count - 1])
