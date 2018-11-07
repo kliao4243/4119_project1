@@ -24,6 +24,7 @@ class ConnHandler:
         self.server = None
         self.buffer_size = 8192
         # attributes for log files
+        self.new_file = 0
         self.response_count = 0
         self.request_time = list()
         self.bitrate = list()
@@ -134,6 +135,16 @@ class ConnHandler:
                                                    self.response_count - 1]
                                     if btr in str(self.available_bit_rate):
                                         print add_line
+                                        if self.new_file == 0:
+                                            f = open(log_file, "w+")
+                                            f.write(add_line + "\r\n")
+                                            f.close()
+                                            self.new_file = 1
+                                        else:
+                                            f = open(log_file, "a+")
+                                            f.write(add_line + "\r\n")
+                                            f.close()
+                                        '''
                                         try:
                                             f = open(log_file, "a+")
                                             f.write(add_line + "\r\n")
@@ -142,6 +153,7 @@ class ConnHandler:
                                             f = open(log_file, "w+")
                                             f.write(add_line + "\r\n")
                                             f.close()
+                                        '''
 
                             self.last_pkt_time = time.time()
                             # except Exception:
