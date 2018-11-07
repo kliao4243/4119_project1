@@ -1,0 +1,133 @@
+#! /usr/bin/env python
+import sys
+import select
+import time
+import re
+from socket import socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR
+from thread import *
+
+# Take arguments port number and ip addesses through sys.argv.
+
+# Convert listen_port to Integer.
+listen_port = int(sys.argv[1])
+fake_ip = sys.argv[2]
+server_ip = sys.argv[3]
+
+
+class Proxy:
+    def __init__(self, soc):
+        self.client, self.client_address = soc.accept()
+        self.target = None
+        self.request_url = None
+        self.BUFSIZE = 4096
+        self.method = None
+        self.targetHost = None
+
+    def getClientRequest(self):
+        request=self.client.recv(self.BUFSIZE)
+        if not request:
+            return None
+         #cn=request.find('\n')
+         #firstLine=request[:cn]
+         #print firstLine[:len(firstLine)-9]
+         #line=firstLine.split()
+         #self.method=line[0]
+         #self.targetHost=line[1]
+        return request
+
+    def commonMethod(self,request):
+        self.target = socket(AF_INET, SOCK_STREAM)
+        try:
+            self.target.connect(server_ip)
+        except Exception:
+            print "error"
+        self.target.send(request)
+        self.nonblocking()
+         #tmp=self.targetHost.split('/')
+         #net=tmp[0]+'//'+tmp[2]
+         #request=request.replace(net,'')
+         #targetAddr=self.getTargetInfo(tmp[2])
+         #try:
+         #    (fam,_,_,_,addr)=socket.getaddrinfo(targetAddr[0],targetAddr[1])[0]
+         #except Exception as e:
+         #    print e
+         #    return
+
+    def connectMethod(self, request):
+        pass
+
+    def run(self):
+        request=self.getClientRequest()
+        if request:
+            self.commonMethod(request)
+             #if self.method in ['GET','POST','PUT',"DELETE",'HAVE']:
+             #elif self.method=='CONNECT':
+             #    self.connectMethod(request)
+
+    def nonblocking(self):
+        inputs=[self.client, self.target]
+        while True:
+            readable, writeable, errs = select.select(inputs, [], inputs, 3)
+            if errs:
+                break
+            for soc in readable:
+                data=soc.recv(self.BUFSIZE)
+                if data:
+                    if soc is self.client:
+                        self.target.send(data)
+                    elif soc is self.target:
+                        self.client.send(data)
+                else:
+                    break
+        self.client.close()
+        self.target.close()
+
+    def getTargetInfo(self,host):
+        port=0
+        site=None
+        if ':' in host:
+            tmp=host.split(':')
+            site=tmp[0]
+            port=int(tmp[1])
+        else:
+            site=host
+            port=80
+        return site,port
+
+
+if __name__=='__main__':
+    host = '127.0.0.1'
+    port = 8083
+    backlog = 5
+    server = socket(AF_INET, SOCK_STREAM)
+    server.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+    server.bind((host, port))
+    server.listen(backlog)
+    while True:
+        start_new_thread(Proxy(server).run, ())
+         # p=Process(target=Proxy(server).run, args=())
+         # p.start()
+'''
+if __name__ == '__main__':
+
+    # Create TCP socket. This socket is used to listen from clients.
+    s = socket(AF_INET, SOCK_STREAM)
+    try:
+        s.bind(('', listen_port))
+        # Allow at most 5 connection
+        s.listen(5)
+    except Exception:
+        print "Fail to start proxy."
+        sys.exit(1)
+
+
+     Call the proxy_listen function in a while loop, such that if client close the connection, the proxy can listen to another client, if the server shut down, the proxy
+    can inform the client and continue working when the server recovers.
+    while True:
+        try:
+            start_new_thread(ConnHandler(s).process_connection, ())
+
+        except KeyboardInterrupt:
+            s.close()
+            sys.exit(2)
+'''

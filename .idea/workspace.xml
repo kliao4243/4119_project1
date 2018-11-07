@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8ce55bfa-bd12-4f94-972c-c908a983323a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plot/smoothness.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/proxy/proxy4" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/proxy4" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -118,7 +116,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/proxy/proxy4">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
+            <state relative-caret-position="1391">
               <caret line="153" column="52" selection-start-line="153" selection-start-column="52" selection-end-line="153" selection-end-column="52" />
               <folding>
                 <element signature="e#23#33#0" expanded="true" />
@@ -449,7 +447,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/proxy/proxy4">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
+        <state relative-caret-position="1391">
           <caret line="153" column="52" selection-start-line="153" selection-start-column="52" selection-end-line="153" selection-end-column="52" />
           <folding>
             <element signature="e#23#33#0" expanded="true" />
