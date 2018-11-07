@@ -124,7 +124,7 @@ class ConnHandler:
                                 if len(search_length) > 0:
                                     self.chunk_length = search_length[0]
                             current_length = self.packet_count * self.buffer_size
-                            print "current"+current_length
+                            print "current"+str(current_length)
                             if current_length > self.chunk_length:
                                 print "Yes"
                                 cur_time = str(time.time())
