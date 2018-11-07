@@ -116,6 +116,8 @@ class ConnHandler:
                             self.client.send(data)
                             search_obj = re.search('HTTP/1.1', data)
                             self.packet_count += 1
+                            print self.chunk_length
+                            print self.packet_count
                             if search_obj is not None:
                                 self.response_count += 1
                                 search_length = re.findall(r'Content-Length: ([0-9]*)', data)
