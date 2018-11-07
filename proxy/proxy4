@@ -128,6 +128,8 @@ class ConnHandler:
                                 duration = str(float(cur_time) - self.request_time[self.response_count - 1])
                                 chunk_kb = float(self.chunk_length * 8 / 1024)
                                 new_throughput = str(chunk_kb / float(duration))
+                                if (self.response_count > 10) and (float(new_throughput)>self.throughput*4):
+                                    new_throughput = str(self.throughput*4)
                                 temp1 = alpha * float(new_throughput)
                                 temp2 = (1 - alpha) * self.throughput
                                 self.throughput = temp1 + temp2
