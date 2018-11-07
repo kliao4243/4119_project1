@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8ce55bfa-bd12-4f94-972c-c908a983323a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/proxy/proxy4" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/proxy4" afterDir="false" />
-    </list>
+    <list default="true" id="8ce55bfa-bd12-4f94-972c-c908a983323a" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,13 +49,13 @@
           <entry key="proxy1" value="788" />
           <entry key="proxy2" value="1938" />
           <entry key="proxy3" value="2785" />
-          <entry key="proxy4" value="648" />
+          <entry key="proxy4" value="656" />
           <entry key="py" value="149" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="8458" />
+          <entry key="Python" value="8466" />
         </counts>
       </usages-collector>
     </session>
