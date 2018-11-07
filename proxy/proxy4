@@ -131,7 +131,7 @@ class ConnHandler:
                                 #    if float(new_throughput)>self.throughput*4:
                                 #        new_throughput = str(self.throughput*3)
                                     if float(new_throughput)>98364:
-                                        new_throughput /= 0.1
+                                        new_throughput = str(float(new_throughput) / 0.1)
                                 temp1 = alpha * float(new_throughput)
                                 temp2 = (1 - alpha) * self.throughput
                                 self.throughput = temp1 + temp2
