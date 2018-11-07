@@ -54,7 +54,7 @@ class ConnHandler:
 
             inputs = [self.client, self.server]
             while True:
-                readable, writeable, errs = select.select(inputs, [], inputs, 5)
+                readable, writeable, errs = select.select(inputs, [], inputs, 20)
                 if errs:
                     break
                 for soc in readable:
