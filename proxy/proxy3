@@ -58,13 +58,13 @@ class ConnHandler:
                 if errs:
                     break
                 for soc in readable:
-                    try:
-                        data = soc.recv(self.buffer_size)
-                    except Exception:
-                        print "Connection Lost"
-                        self.server.close()
-                        self.client.close()
-                        return
+                    #try:
+                    data = soc.recv(self.buffer_size)
+                    #except Exception:
+                    #    print "Connection Lost"
+                    #    self.server.close()
+                    #    self.client.close()
+                    #    return
                     if data:
                         if soc is self.client:
                             # try:
