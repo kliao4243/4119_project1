@@ -23,9 +23,7 @@ class ConnHandler:
         self.client, _ = listen_socket.accept()
         self.server = None
         self.buffer_size = 8192
-        self.chunk_length = 0
         self.content_length = list()
-        self.packet_count = 0
         # attributes for log files
         self.new_file = 0
         self.response_count = 0
@@ -39,6 +37,8 @@ class ConnHandler:
         self.transmit_bitrate = 0
 
     def process_connection(self):
+
+        # Send the first request. The first cannot be a video chunk.
         request = self.client.recv(self.buffer_size)
         if len(request) > 0:
             self.server = socket(AF_INET, SOCK_STREAM)
@@ -56,9 +56,11 @@ class ConnHandler:
 
             inputs = [self.client, self.server]
             while True:
+                # Set up unblocking I/O
                 readable, writeable, errs = select.select(inputs, [], inputs, )
                 if errs:
                     break
+
                 for soc in readable:
                     try:
                         data = soc.recv(self.buffer_size)
@@ -68,10 +70,13 @@ class ConnHandler:
                         self.client.close()
                         return
                     if data:
+                        # When the message is sending from the read list
                         if soc is self.client:
                             try:
+                                # Record the requested time first
                                 self.request_time.append(time.time())
                                 data = data.decode()
+                                # Only write into log file when the received message is a video chunk
                                 if self.content_length != "not available":
                                     duration = str(time.time() - self.request_time[len(self.request_time)-2])
                                     cur_time = str(time.time())
@@ -83,7 +88,7 @@ class ConnHandler:
                                     btr = self.bitrate[len(self.request_time)-2]
                                     add_line = cur_time + " " + duration + " " + new_throughput + " " + \
                                                str(self.throughput) + " " + btr + " " + server_ip + " " + \
-                                               self.chunkname[self.response_count - 1]
+                                               self.chunkname[-1]
                                     if btr in str(self.available_bit_rate):
                                         print add_line
                                         if self.new_file == 0:
@@ -95,7 +100,8 @@ class ConnHandler:
                                             f = open(log_file, "a+")
                                             f.write(add_line + "\r\n")
                                             f.close()
-
+                                # Check whether this is request for f4m file. If it is, request both original
+                                # f4m file and no_list file
                                 searchobj = re.findall(r'/vod/(.*).f4m', data)
                                 if len(searchobj) > 0:
                                     data_1 = data
@@ -105,6 +111,7 @@ class ConnHandler:
                                     self.server.send(data_1)
                                     f4mfile = self.server.recv(self.buffer_size)
                                     f4mfile = str(f4mfile)
+                                    # Parse information from original f4m file. Find available bitrate
                                     searchxml = re.findall('Content-Type: text/xml', f4mfile)
                                     if len(searchxml) > 0:
                                         searchbitrate = re.findall(r'bitrate="([0-9]*)"', f4mfile)
@@ -113,6 +120,7 @@ class ConnHandler:
                                         print self.available_bit_rate
                                         self.transmit_bitrate = min(self.available_bit_rate)
 
+                                # Set up requested bit rate
                                 if self.throughput > 0:
                                     temp_max = self.throughput * 2 / 3
                                     temp_available = [x for x in self.available_bit_rate if x < temp_max]
@@ -121,6 +129,8 @@ class ConnHandler:
                                     elif len(self.available_bit_rate) > 0:
                                         self.transmit_bitrate = min(self.available_bit_rate)
 
+                                # Find the request for video change. Change the bit rate to calculated bit rate. Also
+                                # record the name of chunk into chunkname variable
                                 searchchunk = re.findall(r'/vod/[0-9]*0Seg.*Frag[0-9]*', data)
                                 if len(searchchunk) > 0:
                                     searchrate = re.findall(r'/([0-9]*0)Seg', data)
@@ -136,9 +146,12 @@ class ConnHandler:
                                 print "Server lost"
                                 self.client.close()
                                 return
+                        # If the message is coming from server
                         elif soc is self.server:
                             try:
                                 self.client.send(data)
+                                # Check whether this message contains HTTP headers, where we can retrieve content
+                                # length information
                                 search_obj = re.search('HTTP/1.1', data)
                                 if search_obj is not None:
                                     search_length = re.findall(r'Content-Length: ([0-9]*)', data)
@@ -154,7 +167,7 @@ class ConnHandler:
                             break
             self.client.close()
             self.server.close()
-            
+
 
 if __name__ == '__main__':
     # Create TCP socket. This socket is used to listen from clients.
@@ -168,8 +181,7 @@ if __name__ == '__main__':
         print "Fail to start proxy."
         sys.exit(1)
 
-    ''' Call the proxy_listen function in a while loop, such that if client close the connection, the proxy can listen to another client, if the server shut down, the proxy
-    can inform the client and continue working when the server recovers.'''
+    # Put the process connection function in a while loop thus the proxy can keep accepting connection
     while True:
         try:
             start_new_thread(ConnHandler(s).process_connection, ())
