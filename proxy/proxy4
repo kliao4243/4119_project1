@@ -150,19 +150,6 @@ class ConnHandler:
                                         f.write(add_line + "\r\n")
                                         f.close()
                                 self.packet_count = 0
-
-                                '''
-                                try:
-                                    f = open(log_file, "a+")
-                                    f.write(add_line + "\r\n")
-                                    f.close()
-                                except Exception:
-                                    f = open(log_file, "w+")
-                                    f.write(add_line + "\r\n")
-                                    f.close()
-                                '''
-
-                            self.last_pkt_time = time.time()
                             # except Exception:
                             # print "Client lost"
                             # self.server.close()
